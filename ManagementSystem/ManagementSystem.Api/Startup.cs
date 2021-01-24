@@ -12,6 +12,9 @@ using ManagementSystem.Api.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ManagementSystem.Api.Interfaces;
+using ManagementSystem.Api.Controllers;
+using ManagementSystem.Api.Data.Entities;
 
 namespace ManagementSystem.Api
 {
@@ -30,10 +33,17 @@ namespace ManagementSystem.Api
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultUI()
+            .AddDefaultTokenProviders();
+
+            //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
+            //services.AddScoped<IAccountController, AccountController>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
