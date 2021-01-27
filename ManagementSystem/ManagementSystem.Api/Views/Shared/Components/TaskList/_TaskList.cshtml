@@ -1,0 +1,18 @@
+﻿@model List<ManagementSystem.Api.Models.ViewModels.Task.TaskListViewModel>
+
+@{
+}
+
+
+<div>
+    @foreach (var task in Model)
+    {
+        <p>
+            taskId : @task.Id
+        </p>
+        <p>
+            navn : @task.Name
+        </p>
+        <br />
+    }
+</div>

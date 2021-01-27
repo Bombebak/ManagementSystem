@@ -24,7 +24,7 @@ namespace ManagementSystem.Api.Data
         public virtual DbSet<ApplicationTaskUser> TaskUsers { get; set; }
         public virtual DbSet<ApplicationTask> Tasks { get; set; }
         public virtual DbSet<ApplicationProject> Projects { get; set; }
-        public virtual DbSet<ApplicationSprint> Sprint { get; set; }
+        public virtual DbSet<ApplicationSprint> Sprints { get; set; }
         public virtual DbSet<ApplicationSprintUser> SprintUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -137,18 +137,18 @@ namespace ManagementSystem.Api.Data
 
                 b.HasMany(e => e.TaskUsers)
                    .WithOne(e => e.Task)
-                   .HasForeignKey(ps => ps.TaskId)
-                   .IsRequired();
+                   .HasForeignKey(ps => ps.TaskId);
 
                 b.HasMany(e => e.TimeRegistrations)
                    .WithOne(e => e.Task)
-                   .HasForeignKey(ps => ps.TaskId)
-                   .IsRequired();
+                   .HasForeignKey(ps => ps.TaskId);
             });
 
             modelBuilder.Entity<ApplicationTaskUser>(b =>
             {
                 b.ToTable("Rel_Task_User");
+
+                
 
                 b.HasKey(e => new { e.TaskId, e.UserId });
             });

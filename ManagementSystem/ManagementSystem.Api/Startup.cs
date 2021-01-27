@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using ManagementSystem.Api.Interfaces;
 using ManagementSystem.Api.Controllers;
 using ManagementSystem.Api.Data.Entities;
+using ManagementSystem.Api.Repositories;
+using ManagementSystem.Api.Mappings;
 
 namespace ManagementSystem.Api
 {
@@ -43,7 +45,9 @@ namespace ManagementSystem.Api
 
             services.AddControllersWithViews();
             services.AddRazorPages();
-            //services.AddScoped<IAccountController, AccountController>();
+            RegisterControllers(services);
+            RegisterRepositories(services);
+            RegisterMappings(services);          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,6 +79,25 @@ namespace ManagementSystem.Api
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+        }
+
+        private void RegisterControllers(IServiceCollection services)
+        {
+            //services.AddScoped<IAccountController, AccountController>();
+            services.AddScoped<ITaskController, TaskController>();
+            services.AddScoped<ICommonListItemController, CommonListItemController>();
+        }
+        private void RegisterRepositories(IServiceCollection services)
+        {
+            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<ISprintRepository, SprintRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+           
+        }
+        private void RegisterMappings(IServiceCollection services)
+        {
+            services.AddScoped<ITaskMapping, TaskMapping>();
+            services.AddScoped<IListItemMapping, ListItemMapping>();
         }
     }
 }
