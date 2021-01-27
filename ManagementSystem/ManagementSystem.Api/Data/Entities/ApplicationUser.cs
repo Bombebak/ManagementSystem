@@ -12,5 +12,10 @@ namespace ManagementSystem.Api.Data.Entities
         public virtual ICollection<ApplicationUserLogin> Logins { get; set; }
         public virtual ICollection<ApplicationUserToken> Tokens { get; set; }
         public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
+
+        public virtual ICollection<ApplicationTeamUser> TeamUsers { get; set; }
+        public virtual ICollection<ApplicationSprintUser> SprintUsers { get; set; }
+        public virtual ICollection<ApplicationTaskUser> TaskUsers { get; set; }
+        public virtual ICollection<ApplicationTimeRegistration> TimeRegistrations { get; set; }
     }
 }
