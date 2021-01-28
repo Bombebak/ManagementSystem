@@ -1,0 +1,11 @@
+/*.suo
+/*.vs
+/.idea
+/.vs
+/*/obj/*
+/*/bin/*
+
+
+bin/
+obj/
+

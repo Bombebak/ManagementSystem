@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementSystem.Api", "ManagementSystem.Api\ManagementSystem.Api.csproj", "{29DCF47B-2B4A-4AEB-8416-07C292A543FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagementSystem.Api", "ManagementSystem.Api\ManagementSystem.Api.csproj", "{29DCF47B-2B4A-4AEB-8416-07C292A543FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementSystem.Infrastructure", "ManagementSystem.Infrastructure\ManagementSystem.Infrastructure.csproj", "{4E9B2C7C-793E-4527-AECD-03ECAC3C828D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagementSystem.Infrastructure", "ManagementSystem.Infrastructure\ManagementSystem.Infrastructure.csproj", "{4E9B2C7C-793E-4527-AECD-03ECAC3C828D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementSystem.ApplicationCore", "ManagementSystem.ApplicationCore\ManagementSystem.ApplicationCore.csproj", "{863CF1E6-8DB9-4489-98F9-1E67EED26D24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagementSystem.ApplicationCore", "ManagementSystem.ApplicationCore\ManagementSystem.ApplicationCore.csproj", "{863CF1E6-8DB9-4489-98F9-1E67EED26D24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
