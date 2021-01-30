@@ -91,6 +91,7 @@ namespace ManagementSystem.Api.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Exception occured while trying to save taskId: " + request.Id + " for userId: " + userId);
                 result.Messages.Add(new ValidationItem()
                 {
                     Message = "Not so good",
@@ -118,7 +119,7 @@ namespace ManagementSystem.Api.Controllers
             }
             taskToBeSaved = _taskMapping.MapTaskToBeSaved(taskToBeSaved, request);
             var result = _dbContext.SaveChanges();
-            if (result == 0)
+            if (result == 1)
             {
                 return true;
             }

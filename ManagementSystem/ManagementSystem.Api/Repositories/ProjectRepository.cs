@@ -21,6 +21,11 @@ namespace ManagementSystem.Api.Repositories
             _dbContext = dbContext;
         }
 
+        public Task<ApplicationProject> GetByIdAsync(long id)
+        {
+            return _dbContext.Projects.FirstOrDefaultAsync(e => e.Id == id);
+        }
+
         public Task<List<ApplicationProject>> GetAllAsync()
         {
             return _dbContext.Projects.ToListAsync();

@@ -8,6 +8,7 @@ namespace ManagementSystem.Api.Interfaces
 {
     public interface ISprintRepository
     {
+        Task<ApplicationSprint> GetByIdAsync(long id);
         Task<List<ApplicationSprint>> GetAllAsync();
     }
 }

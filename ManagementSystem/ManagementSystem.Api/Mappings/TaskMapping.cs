@@ -45,6 +45,9 @@ namespace ManagementSystem.Api.Mappings
 
             target.Id = source.Id;
             target.Name = source.Name;
+            target.Description = source.Description;
+            target.ProjectId = source.ProjectId.GetValueOrDefault();
+            target.SprintId = source.SprintId.GetValueOrDefault();
 
             return target;
         }

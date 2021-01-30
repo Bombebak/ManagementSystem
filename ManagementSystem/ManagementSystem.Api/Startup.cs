@@ -88,6 +88,8 @@ namespace ManagementSystem.Api
             //services.AddScoped<IAccountController, AccountController>();
             services.AddScoped<ITaskController, TaskController>();
             services.AddScoped<ICommonListItemController, CommonListItemController>();
+            services.AddScoped<ISprintController, SprintController>();
+            services.AddScoped<IProjectController, ProjectController>();
         }
         private void RegisterRepositories(IServiceCollection services)
         {
@@ -100,6 +102,8 @@ namespace ManagementSystem.Api
         {
             services.AddScoped<ITaskMapping, TaskMapping>();
             services.AddScoped<IListItemMapping, ListItemMapping>();
+            services.AddScoped<IProjectMapping, ProjectMapping>();
+            services.AddScoped<ISprintMapping, SprintMapping>();
         }
         private void RegisterServices(IServiceCollection services)
         {

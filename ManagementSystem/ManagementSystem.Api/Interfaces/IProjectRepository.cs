@@ -8,6 +8,7 @@ namespace ManagementSystem.Api.Interfaces
 {
     public interface IProjectRepository
     {
+        Task<ApplicationProject> GetByIdAsync(long id);
         Task<List<ApplicationProject>> GetAllAsync();
     }
 }

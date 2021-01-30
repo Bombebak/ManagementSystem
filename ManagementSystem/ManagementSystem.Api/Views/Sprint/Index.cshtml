@@ -4,20 +4,22 @@
 
 <div>
     <div>
-        <button type="button" class="btn btn-primary edit-task" data-toggle="modal" data-target="#saveTaskModal">Insert</button>
+        <button type="button" class="btn btn-primary edit-sprint" data-toggle="modal" data-target="#saveSprintModal">Insert</button>
 
     </div>
     <div id="tasklist">
-        @await Component.InvokeAsync("TaskList")
+        @await Component.InvokeAsync("SprintList")
     </div>
     @{await Html.RenderPartialAsync("_Modal");}
-    
+
 </div>
 
 
 
 
 @section Scripts{
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="~/js/task/task.service.js"></script>
+    <script src="~/js/sprint/sprint.service.js"></script>
+
 }

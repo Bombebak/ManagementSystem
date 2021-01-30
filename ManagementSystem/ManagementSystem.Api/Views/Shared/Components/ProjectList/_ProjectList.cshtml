@@ -1,0 +1,31 @@
+﻿@model List<ManagementSystem.Api.Models.ViewModels.Project.ProjectListViewModel>
+
+@{
+}
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ProjectId</th>
+                <th scope="col">Name</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.Id</th>
+                    <td>@item.Name</td>
+                    <td>
+                        <a class="btn btn-info edit-project" data-id="@item.Id" data-toggle="modal" data-target="#saveProjectModal">
+                            <i class="glyphicon glyphicon-pencil"></i>Edit
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

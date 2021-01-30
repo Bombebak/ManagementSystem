@@ -1,0 +1,23 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<div>
+    <div>
+        <button type="button" class="btn btn-primary edit-project" data-toggle="modal" data-target="#saveProjectModal">Add</button>
+
+    </div>
+    <div id="tasklist">
+        @await Component.InvokeAsync("ProjectList")
+    </div>
+    @{await Html.RenderPartialAsync("_Modal");}
+
+</div>
+
+
+
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}    
+    <script src="~/js/project/project.service.js"></script>
+}

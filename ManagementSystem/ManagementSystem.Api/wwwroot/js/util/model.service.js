@@ -42,9 +42,18 @@
 		return obj;
 	};
 
+	self.setDatepickerProperties = function (properties) {
+		if (properties == null) return;
+		$.map(properties, function (e) {
+			var target = $(_container).find('#' + e);
+			$(target).datepicker();
+		});
+	};
+
 	return {
 		init,
 		setSimpleProperties,
-		setOptionProperties
+		setOptionProperties,
+		setDatepickerProperties
 	};
 }());

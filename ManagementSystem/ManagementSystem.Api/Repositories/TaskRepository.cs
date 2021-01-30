@@ -23,7 +23,7 @@ namespace ManagementSystem.Api.Repositories
 
         public ApplicationTask GetById(long taskId)
         {
-            return _dbContext.Tasks.FirstOrDefault(e => e.Id == taskId);
+            return _dbContext.Tasks.Where(e => e.Id == taskId).Include(e => e.Project).Include(e => e.Sprint).FirstOrDefault();
         }
 
         public Task<List<ApplicationTask>> GetAllAsync()
