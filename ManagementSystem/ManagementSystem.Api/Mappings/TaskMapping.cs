@@ -49,6 +49,37 @@ namespace ManagementSystem.Api.Mappings
             return target;
         }
 
+        public ApplicationTask MapTaskToBeSaved(ApplicationTask target, SaveTaskRequestViewModel source)
+        {
+            if (target == null)
+            {
+                target = new ApplicationTask();
+            }
+
+            target.Name = source.Name;
+            target.Description = source.Description;
+            target.Hours = source.Hours;
+            target.Minutes = source.Minutes;
+            if (source.ProjectId != 0)
+            {
+                target.ProjectId = source.ProjectId;
+            }
+            else
+            {
+                target.ProjectId = null;
+            }
+            if (source.SprintId != 0)
+            {
+                target.SprintId = source.SprintId;
+            }
+            else
+            {
+                target.SprintId = null;
+            }
+
+            return target;
+        }
+
         private TaskListViewModel MapToTaskList(ApplicationTask source)
         {
             if (source == null)
@@ -71,5 +102,6 @@ namespace ManagementSystem.Api.Mappings
             }
             return null;
         }
+
     }
 }

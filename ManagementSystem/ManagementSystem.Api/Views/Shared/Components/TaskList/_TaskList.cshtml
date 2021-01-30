@@ -3,16 +3,29 @@
 @{
 }
 
-
 <div>
-    @foreach (var task in Model)
-    {
-        <p>
-            taskId : @task.Id
-        </p>
-        <p>
-            navn : @task.Name
-        </p>
-        <br />
-    }
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">taskId</th>
+                <th scope="col">Name</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in Model)
+            {
+                <tr>
+                    <th scope="row">@task.Id</th>
+                    <td>@task.Name</td>
+                    <td>
+                        <a class="btn btn-info edit-task" data-id="@task.Id" data-toggle="modal" data-target="#saveTaskModal">
+                            <i class="glyphicon glyphicon-pencil"></i>Edit
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
 </div>

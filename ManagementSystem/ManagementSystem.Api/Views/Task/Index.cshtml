@@ -7,11 +7,15 @@
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#saveTaskModal">Insert</button>
 
     </div>
-    <div id="">
+    <div id="tasklist">
         @await Component.InvokeAsync("TaskList")
     </div>
-
-    @await Html.PartialAsync("_SaveTask")
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -19,6 +23,8 @@
 
 @section Scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/util/model.service.js"></script>
+    <script src="~/js/util/validation.service.js"></script>
     <script src="~/js/task/task.service.js"></script>
 
 }

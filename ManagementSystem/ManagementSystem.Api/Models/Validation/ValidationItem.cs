@@ -9,6 +9,7 @@ namespace ManagementSystem.Api.Models.ViewModels.Api
     public class ValidationItem
     {
         public string Message { get; set; }
+        public string FieldName { get; set; }
         public ValidationTypes ValidationType { get; set; }
     }
 }

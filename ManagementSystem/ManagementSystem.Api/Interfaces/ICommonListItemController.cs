@@ -8,7 +8,7 @@ namespace ManagementSystem.Api.Interfaces
 {
     public interface ICommonListItemController
     {
-        List<ListItemDto<long>> GetProjects();
-        List<ListItemDto<long>> GetSprints();
+        Task<List<ListItemDto<long>>> GetProjectsAsync(bool includeDefault);
+        Task<List<ListItemDto<long>>> GetSprintsAsync(bool includeDefault);
     }
 }

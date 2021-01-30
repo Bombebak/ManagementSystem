@@ -13,9 +13,12 @@ namespace ManagementSystem.Api.Models.ViewModels.Task
         public string Name { get; set; }
         public string Description { get; set; }
         public long? ParentId { get; set; }
-        public long? SprintId { get; set; }
-        public long? ProjectId { get; set; }
+        public long SprintId { get; set; }
+        public long ProjectId { get; set; }
         public int? Hours { get; set; }
         public int? Minutes { get; set; }
+        public List<Helpers.ListItemDto<long>> Projects { get; set; }
+        public List<Helpers.ListItemDto<long>> Sprints { get; set; }
+        public List<int> ProjectsT { get; set; }
     }
 }

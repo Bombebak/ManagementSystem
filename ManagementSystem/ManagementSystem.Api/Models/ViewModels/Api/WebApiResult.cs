@@ -10,5 +10,12 @@ namespace ManagementSystem.Api.Models.ViewModels.Api
         public t Data { get; set; }
         public bool Success { get; set; }
         public List<ValidationItem> Items { get; set; }
+        public List<ValidationItem> Messages { get; set; }
+
+        public WebApiResult()
+        {
+            Items = new List<ValidationItem>();
+            Messages = new List<ValidationItem>();
+        }
     }
 }

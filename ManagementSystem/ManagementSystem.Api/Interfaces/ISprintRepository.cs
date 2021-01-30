@@ -8,6 +8,6 @@ namespace ManagementSystem.Api.Interfaces
 {
     public interface ISprintRepository
     {
-        IEnumerable<ApplicationSprint> GetAll();
+        Task<List<ApplicationSprint>> GetAllAsync();
     }
 }

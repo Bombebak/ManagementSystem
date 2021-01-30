@@ -8,6 +8,6 @@ namespace ManagementSystem.Api.Interfaces
 {
     public interface IProjectRepository
     {
-        IEnumerable<ApplicationProject> GetAll();
+        Task<List<ApplicationProject>> GetAllAsync();
     }
 }

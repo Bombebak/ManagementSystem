@@ -17,6 +17,7 @@ using ManagementSystem.Api.Controllers;
 using ManagementSystem.Api.Data.Entities;
 using ManagementSystem.Api.Repositories;
 using ManagementSystem.Api.Mappings;
+using ManagementSystem.Api.Services;
 
 namespace ManagementSystem.Api
 {
@@ -44,10 +45,11 @@ namespace ManagementSystem.Api
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
-            services.AddRazorPages();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
             RegisterControllers(services);
             RegisterRepositories(services);
-            RegisterMappings(services);          
+            RegisterMappings(services);
+            RegisterServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,6 +100,10 @@ namespace ManagementSystem.Api
         {
             services.AddScoped<ITaskMapping, TaskMapping>();
             services.AddScoped<IListItemMapping, ListItemMapping>();
+        }
+        private void RegisterServices(IServiceCollection services)
+        {
+            services.AddScoped<IModelStateService, ModelStateService>();
         }
     }
 }

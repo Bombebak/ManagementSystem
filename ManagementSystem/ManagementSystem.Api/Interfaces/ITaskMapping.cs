@@ -11,5 +11,6 @@ namespace ManagementSystem.Api.Interfaces
     {
         List<TaskListViewModel> MapToTaskList(IEnumerable<ApplicationTask> source);
         SaveTaskRequestViewModel MapToSaveTask(ApplicationTask source);
+        ApplicationTask MapTaskToBeSaved(ApplicationTask target, SaveTaskRequestViewModel source);
     }
 }

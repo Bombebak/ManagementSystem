@@ -16,12 +16,21 @@ namespace ManagementSystem.Api.Controllers
         private readonly IProjectRepository _projectRepository;
         private readonly IListItemMapping _listItemMapping;
 
-        public List<ListItemDto<long>> GetProjects()
+        public CommonListItemController(ILogger<CommonListItemController> logger, ISprintRepository sprintRepository, IProjectRepository projectRepository, IListItemMapping listItemMapping)
         {
-            var list = new List<ListItemDto<long>>();
+            _logger = logger;
+            _sprintRepository = sprintRepository;
+            _projectRepository = projectRepository;
+            _listItemMapping = listItemMapping;
+        }
+
+        public async Task<List<ListItemDto<long>>> GetProjectsAsync(bool includeDefault)
+        {
+            var list = GetStandardList(includeDefault);
+
             try
             {
-                var entries = _projectRepository.GetAll();
+                var entries = await _projectRepository.GetAllAsync();
                 list.AddRange(_listItemMapping.MapDtos(entries));
             }
             catch (Exception ex)
@@ -32,12 +41,12 @@ namespace ManagementSystem.Api.Controllers
             return list;
         }
 
-        public List<ListItemDto<long>> GetSprints()
+        public async Task<List<ListItemDto<long>>> GetSprintsAsync(bool includeDefault)
         {
-            var list = new List<ListItemDto<long>>();
+            var list = GetStandardList(includeDefault);
             try
             {
-                var entries = _sprintRepository.GetAll();
+                var entries = await _sprintRepository.GetAllAsync();
                 list.AddRange(_listItemMapping.MapDtos(entries));
             }
             catch (Exception ex)
@@ -45,6 +54,16 @@ namespace ManagementSystem.Api.Controllers
                 _logger.LogError(ex, "Exception occured while trying to get and map projects to ListItemDtos");
             }
 
+            return list;
+        }
+
+        private List<ListItemDto<long>> GetStandardList(bool includeDefault)
+        {
+            var list = new List<ListItemDto<long>>();
+            if (includeDefault)
+            {
+                list.Add(new ListItemDto<long>(0, "Vælg"));
+            }
             return list;
         }
     }

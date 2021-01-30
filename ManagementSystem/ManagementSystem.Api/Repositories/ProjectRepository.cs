@@ -1,6 +1,7 @@
 ﻿using ManagementSystem.Api.Data;
 using ManagementSystem.Api.Data.Entities;
 using ManagementSystem.Api.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,9 @@ namespace ManagementSystem.Api.Repositories
             _dbContext = dbContext;
         }
 
-        public IEnumerable<ApplicationProject> GetAll()
+        public Task<List<ApplicationProject>> GetAllAsync()
         {
-            return _dbContext.Projects;
+            return _dbContext.Projects.ToListAsync();
         }
     }
 }

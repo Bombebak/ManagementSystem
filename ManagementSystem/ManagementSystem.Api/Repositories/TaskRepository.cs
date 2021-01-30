@@ -28,7 +28,7 @@ namespace ManagementSystem.Api.Repositories
 
         public Task<List<ApplicationTask>> GetAllAsync()
         {            
-            return _dbContext.TaskUsers.Select(e => e.Task).ToListAsync();
+            return _dbContext.TaskUsers.Include(e => e.Task).Include(e => e.User).Select(e => e.Task).ToListAsync();
         }
 
         public async Task<IEnumerable<ApplicationTask>> GetByUserIdAsync(string userId)
