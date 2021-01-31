@@ -142,6 +142,10 @@ namespace ManagementSystem.Api.Data
                 b.HasMany(e => e.TimeRegistrations)
                    .WithOne(e => e.Task)
                    .HasForeignKey(ps => ps.TaskId);
+
+                b.HasMany(e => e.Children)
+                .WithOne(e => e.Parent)
+                .HasForeignKey(e => e.ParentId);
             });
 
             modelBuilder.Entity<ApplicationTaskUser>(b =>

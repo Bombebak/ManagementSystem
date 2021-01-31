@@ -3,16 +3,29 @@
     var _modelService = modelService;
     var _validationService = validationService;
 
+    $('.add-task').on('click', function () {
+        var id = $(this).attr('data-id');
+        populateModal(null, id);
+    });
+
     $('.edit-task').on('click', function () {
         var id = $(this).attr('data-id');
-        $.get("/Task/SaveTask", { taskId: parseInt(id) }).done(function (data) {
+        populateModal(id, null);
+    });
+
+    function populateModal(taskId, secondId) {
+        var data = {
+            taskId: parseInt(taskId),
+            taskParentId: parseInt(secondId)
+        };
+        $.get("/Task/SaveTask", data).done(function (data) {
             var modalContent = $(".modal .modal-content");
             $(modalContent).html(data);
             $('.modal').modal('show');
             _modelService.init(modalContent);
             _validationService.init(modalContent);
         });
-    });
+    };
 
     $('body').on('click', '#saveTaskBtn', function (e) {
         e.preventDefault();
@@ -24,6 +37,10 @@
             {
                 'PropertyName': 'Id',
                 'Id': 'Id'
+            },
+            {
+                'PropertyName': 'ParentId',
+                'Id': 'ParentId'
             },
             {
                 'PropertyName': 'Name',

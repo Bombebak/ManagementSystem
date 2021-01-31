@@ -13,17 +13,10 @@
             </tr>
         </thead>
         <tbody>
+
             @foreach (var task in Model)
             {
-                <tr>
-                    <th scope="row">@task.Id</th>
-                    <td>@task.Name</td>
-                    <td>
-                        <a class="btn btn-info edit-task" data-id="@task.Id" data-toggle="modal" data-target="#saveTaskModal">
-                            <i class="glyphicon glyphicon-pencil"></i>Edit
-                        </a>
-                    </td>
-                </tr>
+                await Html.RenderPartialAsync("~/Views/Task/_TaskItems.cshtml", task);
             }
         </tbody>
     </table>

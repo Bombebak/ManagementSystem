@@ -22,14 +22,7 @@ namespace ManagementSystem.Api.Mappings
                 return result;
             }
 
-            foreach (var item in source)
-            {
-                var target = MapToTaskList(item);
-                if (target != null)
-                {
-                    result.Add(target);
-                }
-            }
+            result.AddRange(source.Select(e => MapToTaskList(e)));
 
             return result;
         }
@@ -48,6 +41,7 @@ namespace ManagementSystem.Api.Mappings
             target.Description = source.Description;
             target.ProjectId = source.ProjectId.GetValueOrDefault();
             target.SprintId = source.SprintId.GetValueOrDefault();
+            target.ParentId = source.ParentId;
 
             return target;
         }
@@ -79,22 +73,28 @@ namespace ManagementSystem.Api.Mappings
             {
                 target.SprintId = null;
             }
+            if (source.ParentId.HasValue)
+            {
+                target.ParentId = source.ParentId;
+            }
 
             return target;
         }
 
         private TaskListViewModel MapToTaskList(ApplicationTask source)
         {
-            if (source == null)
-            {
-                return null;
-            }
             try
             {
                 var target = new TaskListViewModel();
 
                 target.Id = source.Id;
                 target.Name = source.Name;
+                target.ParentId = source.ParentId;
+                target.Children = new List<TaskListViewModel>();
+                if (source.Children != null && source.Children.Any())
+                {
+                    target.Children.AddRange(source.Children.Select(e => MapToTaskList(e)));
+                }
 
                 return target;
             }

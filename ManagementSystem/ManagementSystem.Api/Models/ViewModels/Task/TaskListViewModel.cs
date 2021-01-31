@@ -8,6 +8,8 @@ namespace ManagementSystem.Api.Models.ViewModels.Task
     public class TaskListViewModel
     {
         public long Id { get; set; }
+        public long? ParentId { get; set; }
         public string Name { get; set; }
+        public List<TaskListViewModel> Children { get; set; }
     }
 }

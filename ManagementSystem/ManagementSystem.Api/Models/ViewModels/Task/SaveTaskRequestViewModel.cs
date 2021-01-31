@@ -19,6 +19,5 @@ namespace ManagementSystem.Api.Models.ViewModels.Task
         public int? Minutes { get; set; }
         public List<Helpers.ListItemDto<long>> Projects { get; set; }
         public List<Helpers.ListItemDto<long>> Sprints { get; set; }
-        public List<int> ProjectsT { get; set; }
     }
 }

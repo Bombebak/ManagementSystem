@@ -1,0 +1,22 @@
+﻿@model ManagementSystem.Api.Models.ViewModels.Task.TaskListViewModel
+
+<tr>
+    <th scope="row">@Model.Id</th>
+    <td>@Model.Name</td>
+    <td>
+        <a class="btn btn-info edit-task" data-id="@Model.Id">
+            <i class="glyphicon glyphicon-pencil"></i>Edit
+        </a>
+        <a class="btn btn-info add-task" data-id="@Model.Id">
+            <i class="glyphicon glyphicon-pencil"></i>Add
+        </a>
+    </td>
+</tr>
+
+@if (Model.Children.Any())
+{
+    @foreach (var childTask in Model.Children)
+    {
+        await Html.RenderPartialAsync("_TaskItems", childTask);
+    }
+}

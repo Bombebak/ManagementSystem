@@ -30,7 +30,8 @@ namespace ManagementSystem.Api.ViewComponents.Tasks
             try
             {
                 var tasks = await _taskRepository.GetAllAsync();
-                data = _taskMapping.MapToTaskList(tasks);
+                var tasksWithoutChildren = tasks.Where(e => e.ParentId == null).ToList();
+                data = _taskMapping.MapToTaskList(tasksWithoutChildren);
             }
             catch (Exception ex)
             {

@@ -25,13 +25,17 @@ namespace ManagementSystem.Api.ViewComponents.Tasks
             _commonListItemController = commonListItemController;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(long? taskId)
+        public async Task<IViewComponentResult> InvokeAsync(long? taskId, long? taskParentId)
         {
             SaveTaskRequestViewModel data = new SaveTaskRequestViewModel();
             if (taskId.HasValue)
             {
                 var entity = _taskRepository.GetById(taskId.Value);
                 data = _taskMapping.MapToSaveTask(entity);
+            }
+            if (taskParentId.HasValue)
+            {
+                data.ParentId = taskParentId;
             }
             data.Projects = await _commonListItemController.GetProjectsAsync(true);
             data.Sprints = await _commonListItemController.GetSprintsAsync(true);

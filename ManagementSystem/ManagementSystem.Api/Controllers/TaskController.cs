@@ -21,17 +21,15 @@ namespace ManagementSystem.Api.Controllers
         private readonly ITaskRepository _taskRepository;
         private readonly ITaskMapping _taskMapping;
         private readonly ApplicationDbContext _dbContext;
-        private readonly ICommonListItemController _commonListItemController;
         private readonly IModelStateService _modelStateService;
 
         public TaskController(ILogger<TaskController> logger, ITaskRepository taskRepository, ITaskMapping taskMapping, ApplicationDbContext dbContext, 
-            ICommonListItemController commonListItemController, IModelStateService modelStateService)
+            IModelStateService modelStateService)
         {
             _logger = logger;
             _taskRepository = taskRepository;
             _taskMapping = taskMapping;
             _dbContext = dbContext;
-            _commonListItemController = commonListItemController;
             _modelStateService = modelStateService;
         }
 
@@ -42,30 +40,10 @@ namespace ManagementSystem.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> LoadTasks()
+        public IActionResult SaveTask(long? taskId, long? taskParentId)
         {
-            var data = new List<TaskListViewModel>();
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-            try
-            {
-                var tasks = await _taskRepository.GetByUserIdAsync(userId);
-                data = _taskMapping.MapToTaskList(tasks);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Exception occured while trying to load tasks for userId: " + userId);
-            }
-
-            return ViewComponent("_TaskList");
+            return ViewComponent("TaskSave", new { taskId, taskParentId });
         }
-
-        [HttpGet]
-        public IActionResult SaveTask(long? taskId)
-        {
-            return ViewComponent("TaskSave", taskId);
-        }
-
         
         [HttpPost]
         public IActionResult SaveTask(SaveTaskRequestViewModel request)
