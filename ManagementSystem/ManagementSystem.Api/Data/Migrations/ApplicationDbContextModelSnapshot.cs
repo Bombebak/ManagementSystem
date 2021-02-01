@@ -200,10 +200,15 @@ namespace ManagementSystem.Api.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("ParentId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("TeamType")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Team");
                 });
@@ -452,6 +457,13 @@ namespace ManagementSystem.Api.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagementSystem.Api.Data.Entities.ApplicationTeam", b =>
+                {
+                    b.HasOne("ManagementSystem.Api.Data.Entities.ApplicationTeam", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
                 });
 
             modelBuilder.Entity("ManagementSystem.Api.Data.Entities.ApplicationTeamUser", b =>

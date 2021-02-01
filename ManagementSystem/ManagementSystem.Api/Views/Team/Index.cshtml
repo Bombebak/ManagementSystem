@@ -1,0 +1,27 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<link rel="stylesheet" href="~/lib/select-pure/dist/css/select-pure.css" />
+
+
+<div>
+    <div>
+        <button type="button" class="btn btn-primary edit-team">Insert</button>
+
+    </div>
+    <div id="tasklist">
+        @await Component.InvokeAsync("TeamList")
+    </div>
+    @{await Html.RenderPartialAsync("_Modal");}
+
+</div>
+
+
+
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/select-pure/dist/js/bundle.min.js"></script>
+    <script src="~/js/team/service.team.js"></script>
+    <script src="~/js/team/saveTeam.js"></script>
+}

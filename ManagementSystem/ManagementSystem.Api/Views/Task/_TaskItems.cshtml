@@ -1,17 +1,25 @@
 ﻿@model ManagementSystem.Api.Models.ViewModels.Task.TaskListViewModel
 
-<tr>
-    <th scope="row">@Model.Id</th>
-    <td>@Model.Name</td>
-    <td>
+
+
+<div style="display: flex; justify-content: space-between;">
+    <div>
+        @Model.Id
+    </div>
+    <div class="name">
+        @Model.Name
+    </div>
+    <div>
         <a class="btn btn-info edit-task" data-id="@Model.Id">
             <i class="glyphicon glyphicon-pencil"></i>Edit
         </a>
-        <a class="btn btn-info add-task" data-id="@Model.Id">
+        <a class="btn btn-primary add-task" data-id="@Model.Id">
             <i class="glyphicon glyphicon-pencil"></i>Add
         </a>
-    </td>
-</tr>
+    </div>
+</div>
+
+
 
 @if (Model.Children.Any())
 {

@@ -1,0 +1,29 @@
+﻿@model ManagementSystem.Api.Models.ViewModels.Team.TeamListViewModel
+
+
+
+<div style="display: flex; justify-content: space-between;">
+    <div>
+        @Model.Id
+    </div>
+    <div class="name">
+        @Model.Name
+    </div>
+    <div>
+        <a class="btn btn-info edit-team" data-id="@Model.Id">
+            <i class="glyphicon glyphicon-pencil"></i>Edit
+        </a>
+        <a class="btn btn-primary add-team" data-id="@Model.Id">
+            <i class="glyphicon glyphicon-plus"></i>Add
+        </a>
+    </div>
+</div>
+
+
+@if (Model.Children.Any())
+{
+    @foreach (var childTeam in Model.Children)
+    {
+        await Html.RenderPartialAsync("_TeamItems", childTeam);
+    }
+}

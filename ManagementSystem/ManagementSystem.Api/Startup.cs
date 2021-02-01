@@ -90,13 +90,16 @@ namespace ManagementSystem.Api
             services.AddScoped<ICommonListItemController, CommonListItemController>();
             services.AddScoped<ISprintController, SprintController>();
             services.AddScoped<IProjectController, ProjectController>();
+            services.AddScoped<ITeamController, TeamController>();
         }
         private void RegisterRepositories(IServiceCollection services)
         {
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<ISprintRepository, SprintRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
-           
+            services.AddScoped<ITeamRepository, TeamRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
         }
         private void RegisterMappings(IServiceCollection services)
         {
@@ -104,10 +107,12 @@ namespace ManagementSystem.Api
             services.AddScoped<IListItemMapping, ListItemMapping>();
             services.AddScoped<IProjectMapping, ProjectMapping>();
             services.AddScoped<ISprintMapping, SprintMapping>();
+            services.AddScoped<ITeamMapping, TeamMapping>();
         }
         private void RegisterServices(IServiceCollection services)
         {
             services.AddScoped<IModelStateService, ModelStateService>();
+            services.AddScoped<ITeamUserService, TeamUserService>();
         }
     }
 }

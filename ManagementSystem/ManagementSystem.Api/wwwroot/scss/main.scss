@@ -1,0 +1,13 @@
+﻿
+$icon-font-path: '../font/';
+
+@function font-path($path) {
+    @return $path;
+}
+
+/*@import "../lib/bootstrap/dist/scss/_bootstrap-compass.scss";
+@import "../lib/bootstrap/dist/scss/_bootstrap-mincer.scss";
+@import "../lib/bootstrap/dist/scss/_bootstrap-sprockets.scss";
+@import "../lib/bootstrap/dist/scss/_bootstrap.scss";*/
+@import "../lib/bootstrap/dist/scss/_variables.scss";
+@import "../lib/bootstrap/dist/scss/_glyphicons.scss";

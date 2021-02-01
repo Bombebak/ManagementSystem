@@ -150,9 +150,7 @@ namespace ManagementSystem.Api.Data
 
             modelBuilder.Entity<ApplicationTaskUser>(b =>
             {
-                b.ToTable("Rel_Task_User");
-
-                
+                b.ToTable("Rel_Task_User");                
 
                 b.HasKey(e => new { e.TaskId, e.UserId });
             });
@@ -167,6 +165,10 @@ namespace ManagementSystem.Api.Data
                   .WithOne(e => e.Team)
                   .HasForeignKey(ps => ps.TeamId)
                   .IsRequired();
+
+                b.HasMany(e => e.Children)
+                .WithOne(e => e.Parent)
+                .HasForeignKey(e => e.ParentId);
             });
 
             modelBuilder.Entity<ApplicationTeamUser>(b =>

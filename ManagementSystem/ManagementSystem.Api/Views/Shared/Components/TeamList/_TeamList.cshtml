@@ -1,0 +1,11 @@
+﻿@model List<ManagementSystem.Api.Models.ViewModels.Team.TeamListViewModel>
+
+@{
+}
+
+<div class="container-list">
+    @foreach (var team in Model)
+    {
+        await Html.RenderPartialAsync("~/Views/Team/_TeamItems.cshtml", team);
+    }
+</div>

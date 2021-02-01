@@ -1,0 +1,38 @@
+﻿@model ManagementSystem.Api.Models.ViewModels.Team.TeamSaveRequestViewModel
+
+@{
+}
+
+
+<form asp-controller="Team" asp-action="SaveTeam" id="saveTeamForm">
+    <div class="modal-header">
+        <h5 class="modal-title">Save team</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" id="saveTaskModalBody">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            @Html.HiddenFor(e => e.Id)
+            @Html.HiddenFor(e => e.ParentId)
+            <div class="col-12">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" type="text" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="control-label">Users</label>
+                    <span id="availableUsersInTeam"></span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary relative" id="saveTeamBtn">Save</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</form>
