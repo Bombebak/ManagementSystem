@@ -1,4 +1,5 @@
-﻿using ManagementSystem.Api.Interfaces;
+﻿using ManagementSystem.Api.Data.Entities;
+using ManagementSystem.Api.Interfaces;
 using ManagementSystem.Api.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -14,11 +15,11 @@ namespace ManagementSystem.Api.Controllers
 {
     public class AccountController : Controller, IAccountController
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
 
-        public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IEmailSender emailSender)
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IEmailSender emailSender)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -37,7 +38,7 @@ namespace ManagementSystem.Api.Controllers
         {
             input.ReturnUrl = input.ReturnUrl ?? Url.Content("~/");
 
-            var user = new IdentityUser { UserName = input.Email, Email = input.Email };
+            var user = new ApplicationUser { UserName = input.Email, Email = input.Email };
             var result = await _userManager.CreateAsync(user, input.Password);
             if (result.Succeeded)
             {
@@ -105,6 +106,19 @@ namespace ManagementSystem.Api.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(input);
+        }
+
+        public async Task<IActionResult> Logout(string returnUrl = null)
+        {
+            await _signInManager.SignOutAsync();
+            if (returnUrl != null)
+            {
+                return LocalRedirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         #endregion
