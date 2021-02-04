@@ -32,6 +32,8 @@ namespace ManagementSystem.Api.Controllers
             _modelStateService = modelStateService;
         }
 
+        #region GET
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -44,6 +46,23 @@ namespace ManagementSystem.Api.Controllers
             return ViewComponent("SprintSave", sprintId);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Details(long id)
+        {
+            var sprint = await _sprintRepository.GetByIdAsync(id);
+            if (sprint == null)
+            {
+                //TODO: Error page for like this
+            }
+
+
+
+            return View();
+        }
+
+        #endregion
+
+        #region POST
 
         [HttpPost]
         public async Task<IActionResult> SaveSprint(SaveSprintRequestViewModel request)
@@ -79,6 +98,8 @@ namespace ManagementSystem.Api.Controllers
 
             return Json(new { result });
         }
+
+        #endregion
 
         private async Task<bool> SaveItem(SaveSprintRequestViewModel request, string userId)
         {

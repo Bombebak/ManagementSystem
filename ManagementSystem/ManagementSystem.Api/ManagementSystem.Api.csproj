@@ -46,6 +46,7 @@
     <None Include="wwwroot\font\glyphicons-halflings-regular.ttf" />
     <None Include="wwwroot\font\glyphicons-halflings-regular.woff" />
     <None Include="wwwroot\font\glyphicons-halflings-regular.woff2" />
+    <None Include="wwwroot\scss\base\_mixins.scss" />
   </ItemGroup>
 
 </Project>

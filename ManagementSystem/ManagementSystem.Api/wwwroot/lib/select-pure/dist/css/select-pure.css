@@ -99,3 +99,7 @@
     padding: 10px;
     width: 100%;
 }
+
+.select-pure__placeholder--hidden {
+    display: none;
+}

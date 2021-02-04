@@ -1,23 +1,53 @@
-﻿@model ManagementSystem.Api.Models.ViewModels.Task.TaskListViewModel
+﻿@model ManagementSystem.Api.Models.ViewModels.Task.TaskListItemViewModel
 
-
-
-<div style="display: flex; justify-content: space-between;">
-    <div>
-        @Model.Id
+<div class="table-parent-item">
+    <div class="table-item-level table-item-level-@Model.Level" style="color: black; display: flex; align-items: center; justify-content: flex-end; margin-right: 3px;">
+        @if (Model.Level > 0)
+        {
+            @for (int i = 0; i < Model.Level; i++)
+            {
+                <i class="fa fa-minus" style=" margin-top: 2px;"></i>
+            }
+            <i class="fa fa-arrow-right"></i>
+        }
     </div>
-    <div class="name">
-        @Model.Name
-    </div>
-    <div>
-        <a class="btn btn-info edit-task" data-id="@Model.Id">
-            <i class="glyphicon glyphicon-pencil"></i>Edit
-        </a>
-        <a class="btn btn-primary add-task" data-id="@Model.Id">
-            <i class="glyphicon glyphicon-pencil"></i>Add
-        </a>
+    <div style="" class="table-item">
+        <div class="table-item-header" data-id="@Model.Id">
+            <div class="column-id table-item-level-@Model.Level column-clickable">
+                @Model.Id
+            </div>
+            <div class="column-users table-item-level-@Model.Level column-clickable">
+                @if (Model.Users.Any())
+                {
+                    foreach (var user in Model.Users)
+                    {
+                        <div class="user-list" title="@user.Email">
+                            <i class="fa fa-user-circle-o"></i>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="column-name table-item-level-@Model.Level column-clickable">
+                @Model.Name
+            </div>
+            <div class="column-btns table-item-level-@Model.Level">
+                <a class="btn btn-info edit-task" data-id="@Model.Id">
+                    <i class="fa fa-pencil"></i>Edit
+                </a>
+                <a class="btn btn-dark add-task" data-id="@Model.Id">
+                    <i class="fa fa-plus"></i>Add
+                </a>
+                <a class="btn btn-danger delete-task" data-id="@Model.Id">
+                    <i class="fa fa-remove"></i>Delete
+                </a>
+            </div>
+        </div>
+        <div class="table-item-content">
+            <div class="table-item-selected-task" style="width: 100%"></div>
+        </div>
     </div>
 </div>
+
 
 
 

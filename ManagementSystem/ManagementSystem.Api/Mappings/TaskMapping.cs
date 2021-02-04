@@ -13,16 +13,16 @@ namespace ManagementSystem.Api.Mappings
     {
         private readonly ILogger<TaskMapping> _logger;
 
-        public List<TaskListViewModel> MapToTaskList(IEnumerable<ApplicationTask> source)
+        public List<TaskListItemViewModel> MapToTaskList(IEnumerable<ApplicationTask> source)
         {
-            var result = new List<TaskListViewModel>();
+            var result = new List<TaskListItemViewModel>();
 
             if (source == null)
             {
                 return result;
             }
 
-            result.AddRange(source.Select(e => MapToTaskList(e)));
+            result.AddRange(source.Select(e => MapToTaskList(e, 0)));
 
             return result;
         }
@@ -46,13 +46,8 @@ namespace ManagementSystem.Api.Mappings
             return target;
         }
 
-        public ApplicationTask MapTaskToBeSaved(ApplicationTask target, SaveTaskRequestViewModel source)
+        public void MapTaskToBeSaved(ApplicationTask target, SaveTaskRequestViewModel source)
         {
-            if (target == null)
-            {
-                target = new ApplicationTask();
-            }
-
             target.Name = source.Name;
             target.Description = source.Description;
             target.Hours = source.Hours;
@@ -63,7 +58,7 @@ namespace ManagementSystem.Api.Mappings
             }
             else
             {
-                target.ProjectId = null;
+                target.Project = null;
             }
             if (source.SprintId != 0)
             {
@@ -78,22 +73,41 @@ namespace ManagementSystem.Api.Mappings
                 target.ParentId = source.ParentId;
             }
 
+        }
+
+        public TaskListSelectedTaskViewModel MapToSelectedTask(ApplicationTask source)
+        {
+            var target = new TaskListSelectedTaskViewModel();
+
+            target.Id = source.Id;
+            target.Name = source.Name;
+            target.Description = source.Description;
+            target.Hours = source.Hours;
+            target.Minutes = source.Minutes;
+            target.SprintId = source.SprintId.GetValueOrDefault();
+            target.ProjectId = source.ProjectId.GetValueOrDefault();
+
             return target;
         }
 
-        private TaskListViewModel MapToTaskList(ApplicationTask source)
+        private TaskListItemViewModel MapToTaskList(ApplicationTask source, int level)
         {
             try
             {
-                var target = new TaskListViewModel();
+                var target = new TaskListItemViewModel();
 
                 target.Id = source.Id;
                 target.Name = source.Name;
                 target.ParentId = source.ParentId;
-                target.Children = new List<TaskListViewModel>();
+                target.Level = level;
                 if (source.Children != null && source.Children.Any())
                 {
-                    target.Children.AddRange(source.Children.Select(e => MapToTaskList(e)));
+                    level += 1;
+                    target.Children.AddRange(source.Children.Select(e => MapToTaskList(e, level)));
+                }
+                if (source.TaskUsers != null && source.TaskUsers.Any())
+                {
+                    target.Users.AddRange(source.TaskUsers.Select(e => new TaskListUserItemViewModel(null, e.User.Email)));
                 }
 
                 return target;

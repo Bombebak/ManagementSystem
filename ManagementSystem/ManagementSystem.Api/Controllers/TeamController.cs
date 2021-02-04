@@ -47,36 +47,7 @@ namespace ManagementSystem.Api.Controllers
             return ViewComponent("TeamSave", new { teamId, teamParentId });
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAvailableTeamUsers(long? teamId)
-        {
-            var result = new WebApiResult<List<ListItemDto<string>>>()
-            {
-                Data = new List<ListItemDto<string>>()
-            };
-            var usersInTeam = new List<ApplicationUser>();
-            try
-            {
-                if (teamId.HasValue)
-                {
-                    usersInTeam = await _teamRepository.GetUsersInTeam(teamId.Value);
-                }
-                var users = await _userRepository.GetAllAsync();
-                result.Data.AddRange(_teamUserService.GetAvailableUsers(users, usersInTeam));
-                result.Success = true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Exception occured while trying to GetAvailableTeamUsers for TeamId: " + teamId);
-                result.Messages.Add(new ValidationItem()
-                {
-                    Message = "Not so good",
-                    ValidationType = Models.Enums.ValidationTypes.Error
-                });
-            }            
-
-            return Json(new { result });
-        }
+        
 
         [HttpPost]
         public async Task<IActionResult> SaveTeam(TeamSaveRequestViewModel request)

@@ -9,8 +9,9 @@ namespace ManagementSystem.Api.Interfaces
 {
     public interface ITaskMapping
     {
-        List<TaskListViewModel> MapToTaskList(IEnumerable<ApplicationTask> source);
+        List<TaskListItemViewModel> MapToTaskList(IEnumerable<ApplicationTask> source);
         SaveTaskRequestViewModel MapToSaveTask(ApplicationTask source);
-        ApplicationTask MapTaskToBeSaved(ApplicationTask target, SaveTaskRequestViewModel source);
+        void MapTaskToBeSaved(ApplicationTask target, SaveTaskRequestViewModel source);
+        TaskListSelectedTaskViewModel MapToSelectedTask(ApplicationTask source);
     }
 }

@@ -30,5 +30,15 @@ namespace ManagementSystem.Api.Repositories
         {
             return _dbContext.Users.FirstOrDefaultAsync(e => e.Email == email);
         }
+
+        public Task<List<ApplicationUser>> GetUsersByTeamId(long teamId)
+        {
+            return _dbContext.TeamUsers.Where(e => e.TeamId == teamId).Select(e => e.User).ToListAsync();
+        }
+
+        public Task<List<ApplicationUser>> GetUsersByTaskId(long taskId)
+        {
+            return _dbContext.TaskUsers.Where(e => e.TaskId== taskId).Select(e => e.User).ToListAsync();
+        }
     }
 }

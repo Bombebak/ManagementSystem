@@ -1,16 +1,45 @@
-﻿
-<div>
-    <div>
-        <button type="button" class="btn btn-primary edit-task" data-toggle="modal" data-target="#saveTaskModal">Insert</button>
+﻿@model ManagementSystem.Api.Models.ViewModels.Task.TaskListCriteriaViewModel
+
+<link rel="stylesheet" href="~/lib/select-pure/dist/css/select-pure.css" />
+
+<div>    
+    <div class="row" id="taskSearchCriterias">
+        <div class="col-md-3">
+            @{await Html.RenderPartialAsync("~/Views/Task/_TaskCriteria.cshtml", Model); }
+        </div>
+        <div class="col-md-9">
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fa fa-search"></i></div>
+                        </div>
+                        <input class="form-control" id="SearchText" type="text" asp-for="SearchText" placeholder="Search your task here">
+                        <span asp-validation-for="SearchText" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-1 offset-md-5">
+                    <button type="button" class="btn btn-primary add-task">Add</button>
+                </div>
+            </div>
+            
+            <div class="col-md-12">
+                @await Component.InvokeAsync("TaskList", Model)
+            </div>
+        </div>
+
     </div>
-    <div id="tasklist">
-        @await Component.InvokeAsync("TaskList")
-    </div>
-    @{await Html.RenderPartialAsync("_Modal");}    
+
+    @{await Html.RenderPartialAsync("_Modal");}
 </div>
 
 
 @section Scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/select-pure/dist/js/bundle.min.js"></script>
+    <script src="~/js/user/user.service.js"></script>    
+    <script src="~/js/util/selectpure.service.js"></script>
     <script src="~/js/task/task.service.js"></script>
+    <script src="~/js/task/task.search.service.js"></script>
+    <script src="~/js/task/searchTasks.js"></script>
 }

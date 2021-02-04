@@ -15,7 +15,7 @@ namespace ManagementSystem.Api.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9")
+                .HasAnnotation("ProductVersion", "3.1.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -177,13 +177,21 @@ namespace ManagementSystem.Api.Data.Migrations
 
             modelBuilder.Entity("ManagementSystem.Api.Data.Entities.ApplicationTaskUser", b =>
                 {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<long>("TaskId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("TaskId", "UserId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaskId");
 
                     b.HasIndex("UserId");
 

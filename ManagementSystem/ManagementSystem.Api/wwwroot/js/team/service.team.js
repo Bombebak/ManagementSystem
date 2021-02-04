@@ -3,6 +3,8 @@
     var self = this;
     var _modelService = modelService;
     var _validationService = validationService;
+    var _userService = userService;
+    var _selectPureService = selectPureService;
 
     self.populateModal = function (teamId, teamParentId) {
         var data = {
@@ -62,34 +64,18 @@
     };
     self.availableUsersInTeam = null;
     self.populateAvailableUsers = function (teamId) {
-        return $.ajax({
-            type: "GET",
-            url: "Team/GetAvailableTeamUsers",
-            data: { teamId: teamId },
-        }).done(function (response) {
-            if (response != null && response.result != null) {
-                var result = response.result;
-                if (result.data != null && result.data.length > 0) {
-                    var selectedUsers = [];
-                    $.map(result.data, function (e) {
-                        if (e.isSelected) {
-                            selectedUsers.push(e.label);
-                        }
-                    });
-
-                    self.availableUsersInTeam = new SelectPure("#availableUsersInTeam", {
-                        options: result.data,
-                        value: selectedUsers,
-                        multiple: true, // default: false
-                        autocomplete: true, // default: false
-                        icon: "glyphicon glyphicon-remove"
-                    });
-                }
+        $.when(_userService.getUsersByTeamId(teamId)).then(function (result) {
+            var data = result.result.data;
+            if (data != null) {
+                var selectedUsers = [];
+                $.map(data, function (e) {
+                    if (e.isSelected) {
+                        selectedUsers.push(e.label);
+                    }
+                });
+                self.availableUsersInTeam = _selectPureService.initializeSelectPure("#availableUsersInTeam", data, selectedUsers)
             }
-        })
-            .fail(function (response) {
-                console.log('Error: ' + response);
-            });
+        }); 
     };
 
     return {

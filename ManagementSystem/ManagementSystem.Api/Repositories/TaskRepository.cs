@@ -23,11 +23,11 @@ namespace ManagementSystem.Api.Repositories
 
         public ApplicationTask GetById(long taskId)
         {
-            return _dbContext.Tasks.Where(e => e.Id == taskId).Include(e => e.Project).Include(e => e.Sprint).FirstOrDefault();
+            return _dbContext.Tasks.Where(e => e.Id == taskId).Include(e => e.Project).Include(e => e.Sprint).Include(e => e.TaskUsers).ThenInclude(e => e.User).FirstOrDefault();
         }
 
         public Task<List<ApplicationTask>> GetAllAsync()
-        {            
+        {
             return _dbContext.TaskUsers.Include(e => e.Task).Include(e => e.User).Select(e => e.Task).ToListAsync();
         }
 
@@ -39,8 +39,37 @@ namespace ManagementSystem.Api.Repositories
                 return result;
             }
 
-            await _dbContext.TaskUsers.Where(e => e.UserId == userId).Select(e => e.Task).ToListAsync();
+            await _dbContext.TaskUsers.Where(e => e.UserId == userId).Include(e => e.User).Select(e => e.Task).ToListAsync();
             return result;
+        }
+
+        public async Task<List<ApplicationTask>> GetAllWithoutToList(string searchText, long? projectId, long? sprintId, List<string> userIds)
+        {
+            IQueryable<ApplicationTask> tasks = _dbContext.Tasks;
+            if (userIds.Any())
+            {
+                tasks = tasks.Include(e => e.TaskUsers);
+                foreach (var item in userIds)
+                {
+                    tasks = tasks.Where(e => e.TaskUsers.Any(ee => ee.UserId == item));
+                }
+            }
+            if (projectId.GetValueOrDefault() != 0)
+            {
+                tasks = tasks.Where(e => e.ProjectId.HasValue && e.ProjectId.Value == projectId.Value);
+            }
+            if (sprintId.GetValueOrDefault() != 0)
+            {
+                tasks = tasks.Where(e => e.SprintId.HasValue && e.SprintId.Value == sprintId.Value);
+            }
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                //https://nugetmusthaves.com/Package/Lucene.Net
+                //taskUsers = taskUsers.Where(e => e.Task.Name.Contains(searchText));
+            }
+
+            tasks = tasks.Include(e => e.Project).Include(e => e.Sprint).Include(e => e.TaskUsers).ThenInclude(e => e.User);
+            return await tasks.ToListAsync();
         }
     }
 }

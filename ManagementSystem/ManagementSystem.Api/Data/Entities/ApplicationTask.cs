@@ -22,7 +22,23 @@ namespace ManagementSystem.Api.Data.Entities
 
         public virtual ApplicationTask Parent { get; set; }
         public virtual ApplicationSprint Sprint { get; set; }
-        public virtual ApplicationProject Project { get; set; }
+
+        private ApplicationProject _project;
+        public virtual ApplicationProject Project
+        {
+            get
+            {
+                return _project;
+            }
+            set
+            {
+                _project = value;
+                if (value == null)
+                {
+                    ProjectId = null;
+                }
+            }
+        }
         public virtual ICollection<ApplicationTaskUser> TaskUsers { get; set; }
         public virtual ICollection<ApplicationTimeRegistration> TimeRegistrations { get; set; }
         public virtual ICollection<ApplicationTask> Children { get; set; }

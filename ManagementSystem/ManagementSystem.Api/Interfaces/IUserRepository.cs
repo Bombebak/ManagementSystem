@@ -10,5 +10,7 @@ namespace ManagementSystem.Api.Interfaces
     {
         Task<List<ApplicationUser>> GetAllAsync();
         Task<ApplicationUser> GetUserByEmailAsync(string email);
+        Task<List<ApplicationUser>> GetUsersByTeamId(long teamId);
+        Task<List<ApplicationUser>> GetUsersByTaskId(long taskId);
     }
 }

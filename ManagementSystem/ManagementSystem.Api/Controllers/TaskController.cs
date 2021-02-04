@@ -1,4 +1,5 @@
 ﻿using ManagementSystem.Api.Data;
+using ManagementSystem.Api.Data.Entities;
 using ManagementSystem.Api.Interfaces;
 using ManagementSystem.Api.Models.ViewModels.Api;
 using ManagementSystem.Api.Models.ViewModels.Task;
@@ -22,21 +23,27 @@ namespace ManagementSystem.Api.Controllers
         private readonly ITaskMapping _taskMapping;
         private readonly ApplicationDbContext _dbContext;
         private readonly IModelStateService _modelStateService;
+        private readonly ICommonListItemController _commonListItemController;
+        private readonly IUserRepository _userRepository;
+
 
         public TaskController(ILogger<TaskController> logger, ITaskRepository taskRepository, ITaskMapping taskMapping, ApplicationDbContext dbContext, 
-            IModelStateService modelStateService)
+            IModelStateService modelStateService, ICommonListItemController commonListItemController, IUserRepository userRepository)
         {
             _logger = logger;
             _taskRepository = taskRepository;
             _taskMapping = taskMapping;
             _dbContext = dbContext;
             _modelStateService = modelStateService;
+            _commonListItemController = commonListItemController;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var criterias = await InitializeCriterias(null);
+            return View("Index", criterias);
         }
 
         [HttpGet]
@@ -44,9 +51,29 @@ namespace ManagementSystem.Api.Controllers
         {
             return ViewComponent("TaskSave", new { taskId, taskParentId });
         }
-        
+
+        [HttpGet]
+        public async Task<IActionResult> LoadSelectedTask(long? taskId)
+        {
+            if (taskId.GetValueOrDefault() == 0)
+            {
+                //TODO: Error handling
+            }
+            var selectedTask = _taskRepository.GetById(taskId.Value);
+            if (selectedTask == null)
+            {
+                //TODO: Error handling
+            }
+
+            var vm = _taskMapping.MapToSelectedTask(selectedTask);
+            vm.Projects = await _commonListItemController.GetProjectsAsync(true);
+            vm.Sprints = await _commonListItemController.GetSprintsAsync(true);
+
+            return PartialView("_TaskListSelectedTask", vm);
+        }
+
         [HttpPost]
-        public IActionResult SaveTask(SaveTaskRequestViewModel request)
+        public async Task<IActionResult> SaveTask(SaveTaskRequestViewModel request)
         {
             var result = new WebApiResult<TaskListViewModel>();
 
@@ -60,7 +87,7 @@ namespace ManagementSystem.Api.Controllers
 
             try
             {                
-                result.Success = SaveTask(request, userId);
+                result.Success = await SaveTask(request, userId);
                 result.Messages.Add(new ValidationItem()
                 {
                     Message = "Very nice",
@@ -80,28 +107,101 @@ namespace ManagementSystem.Api.Controllers
             return Json(new { result });
         }
 
-        private bool SaveTask(SaveTaskRequestViewModel request, string userId)
+        private async Task<bool> SaveTask(SaveTaskRequestViewModel request, string userId)
         {
-            Data.Entities.ApplicationTask taskToBeSaved = new Data.Entities.ApplicationTask();
+            var taskToBeSaved = new ApplicationTask();
             if (request.Id.GetValueOrDefault() != 0)
             {
                 taskToBeSaved = _taskRepository.GetById(request.Id.Value);
             }
             else
             {
-                var taskUserEntity = new Data.Entities.ApplicationTaskUser();
-                taskUserEntity.UserId = userId;
-                taskUserEntity.Task = taskToBeSaved;
-                _dbContext.Add(taskUserEntity);
                 _dbContext.Add(taskToBeSaved);
             }
-            taskToBeSaved = _taskMapping.MapTaskToBeSaved(taskToBeSaved, request);
+            await SaveTaskUsers(taskToBeSaved, request.TaskUsers);
+            _taskMapping.MapTaskToBeSaved(taskToBeSaved, request);
             var result = _dbContext.SaveChanges();
+
             if (result == 1)
             {
                 return true;
             }
             return false;
+        }
+
+        private async Task<bool> SaveTaskUsers(ApplicationTask taskToBeSaved, List<string> TaskUsersToBeSaved)
+        {
+            if (TaskUsersToBeSaved == null)
+            {
+                TaskUsersToBeSaved = new List<string>();
+            }
+            DeleteExistingTaskUsers(taskToBeSaved, TaskUsersToBeSaved);
+            await AddNewTaskUsers(taskToBeSaved, TaskUsersToBeSaved);
+            return true;
+        }
+
+        private void DeleteExistingTaskUsers(ApplicationTask taskToBeSaved, List<string> TaskUsersToBeSaved)
+        {
+            var taskUsersToBeDeleted = new List<ApplicationTaskUser>();
+            var existingTaskUsers = taskToBeSaved.TaskUsers;
+            if (existingTaskUsers != null)
+            {
+                foreach (var taskUser in existingTaskUsers)
+                {
+                    if (TaskUsersToBeSaved.FirstOrDefault(e => e == taskUser.User.Email) == null)
+                    {
+                        taskUsersToBeDeleted.Add(taskUser);
+                    }
+                }
+            }
+            _dbContext.TaskUsers.RemoveRange(taskUsersToBeDeleted);
+        }
+
+        private async Task<bool> AddNewTaskUsers(ApplicationTask taskToBeSaved, List<string> TaskUsersToBeSaved)
+        {
+            var taskUsersToAdd = new List<ApplicationTaskUser>();
+            var existingTaskUsers = taskToBeSaved.TaskUsers?.Select(e => e.User);
+            foreach (var userEmail in TaskUsersToBeSaved)
+            {
+                if (existingTaskUsers?.FirstOrDefault(e => e.Email == userEmail) == null)
+                {
+                    var taskUserToAdd = new ApplicationTaskUser()
+                    {
+                        User = await _userRepository.GetUserByEmailAsync(userEmail),
+                        Task = taskToBeSaved
+                    };
+                    taskUsersToAdd.Add(taskUserToAdd);
+                }
+            }
+            _dbContext.TaskUsers.AddRange(taskUsersToAdd);
+            return true;
+        }
+
+        [HttpPost]
+        public IActionResult SearchTasks(TaskListCriteriaViewModel criterias)
+        {
+            return ViewComponent("TaskList", new { criterias });
+        }
+
+        private async Task<TaskListCriteriaViewModel> InitializeCriterias(TaskListCriteriaViewModel criterias)
+        {
+            if (criterias == null)
+            {
+                criterias = new TaskListCriteriaViewModel();
+            }
+            if (criterias.Projects == null || !criterias.Projects.Any())
+            {
+                criterias.Projects = await _commonListItemController.GetProjectsAsync(true);
+            }
+            if (criterias.Sprints == null || !criterias.Sprints.Any())
+            {
+                criterias.Sprints = await _commonListItemController.GetSprintsAsync(true);
+            }
+            if (criterias.UserEmails == null || !criterias.UserEmails.Any())
+            {
+
+            }
+            return criterias;
         }
     }
 }

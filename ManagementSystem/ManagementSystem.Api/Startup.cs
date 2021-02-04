@@ -85,12 +85,13 @@ namespace ManagementSystem.Api
 
         private void RegisterControllers(IServiceCollection services)
         {
-            //services.AddScoped<IAccountController, AccountController>();
+            services.AddScoped<IAccountController, AccountController>();
             services.AddScoped<ITaskController, TaskController>();
             services.AddScoped<ICommonListItemController, CommonListItemController>();
             services.AddScoped<ISprintController, SprintController>();
             services.AddScoped<IProjectController, ProjectController>();
             services.AddScoped<ITeamController, TeamController>();
+            services.AddScoped<IUserController, UserController>();
         }
         private void RegisterRepositories(IServiceCollection services)
         {
@@ -113,6 +114,7 @@ namespace ManagementSystem.Api
         {
             services.AddScoped<IModelStateService, ModelStateService>();
             services.AddScoped<ITeamUserService, TeamUserService>();
+            services.AddScoped<IUserService, UserService>();
         }
     }
 }

@@ -1,13 +1,152 @@
 ﻿
+@import "../lib/bootstrap/dist/scss/bootstrap";
+
+
 $icon-font-path: '../font/';
 
 @function font-path($path) {
     @return $path;
 }
 
-/*@import "../lib/bootstrap/dist/scss/_bootstrap-compass.scss";
-@import "../lib/bootstrap/dist/scss/_bootstrap-mincer.scss";
-@import "../lib/bootstrap/dist/scss/_bootstrap-sprockets.scss";
-@import "../lib/bootstrap/dist/scss/_bootstrap.scss";*/
-@import "../lib/bootstrap/dist/scss/_variables.scss";
-@import "../lib/bootstrap/dist/scss/_glyphicons.scss";
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: image-url("../font/glyphicons-halflings-regular.eot");
+    src: image-url("../font/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), image-url("../font/glyphicons-halflings-regular.woff") format("woff"), image-url("../font/glyphicons-halflings-regular.ttf") format("truetype"), image-url("../font/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg")
+}
+
+.hide {
+    display: none !important;
+}
+
+.show {
+    display: block !important;
+}
+
+
+
+.loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+
+
+
+$levels: 0, 1, 2, 3, 4, 5, 6, 7, 8;
+
+.task-list-container {
+    position: relative;
+    min-height: 250px;
+    color: white;
+
+    .table-parent-item {
+        display: flex;
+        &:hover {
+            cursor: pointer;
+        }
+
+        &.task-open {
+            .table-item-header {
+                border-bottom-left-radius: 0px;
+                border-bottom-right-radius: 0px;
+            }
+
+            .table-item-content {
+                display: flex;
+            }
+        }
+    }
+
+    .table-item-level {
+        display: flex;
+        flex-grow: 0;
+
+        @each $level in $levels {
+            &.table-item-level-#{$level} {
+                width: calc(2% * #{$level})
+            }
+        }
+    }
+
+    .table-item {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        align-items: center;
+        margin-bottom: 7px;
+
+
+        .table-item-header {
+            display: flex;
+            width: 100%;
+            background: #0066cc;
+            align-items: center;
+            border: 2px solid #0066cc;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+
+            .column-id {
+                padding-left: 20px;
+
+                @each $level in $levels {
+                    &.table-item-level-#{$level} {
+                        width: calc(20% - #{$level}%);
+                    }
+                }
+            }
+
+            .column-users {
+                display: flex;
+                width: 10%;
+                .user-list {
+                    margin: 3px;
+                }
+                
+            }
+
+            .column-name {
+                font-weight: bold;
+                @each $level in $levels {
+                    &.table-item-level-#{$level} {
+                        width: calc(50% + #{$level}%)
+                    }
+                }
+            }
+
+            .column-btns {
+                width: 20%;
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
+
+        .table-item-content {
+            display: none;
+            width: 100%;
+            border: 2px solid #0066cc;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+
+            .table-item-selected-task {
+                width: 100%;
+                background: white;
+                color: black;
+                border-bottom-left-radius: 15px;
+                border-bottom-right-radius: 15px;
+            }
+        }
+    }
+}
+
+
+.task-criteria-container {
+    border: 2px solid #0066cc;
+    border-radius: 15px;
+    background: white;
+    padding: 10px;
+}
+

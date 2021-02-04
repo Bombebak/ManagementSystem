@@ -150,9 +150,9 @@ namespace ManagementSystem.Api.Data
 
             modelBuilder.Entity<ApplicationTaskUser>(b =>
             {
-                b.ToTable("Rel_Task_User");                
+                b.ToTable("Rel_Task_User");
 
-                b.HasKey(e => new { e.TaskId, e.UserId });
+                b.HasKey(e => e.Id);
             });
 
             modelBuilder.Entity<ApplicationTeam>(b =>

@@ -11,5 +11,6 @@ namespace ManagementSystem.Api.Interfaces
         ApplicationTask GetById(long taskId);
         Task<List<ApplicationTask>> GetAllAsync();
         Task<IEnumerable<ApplicationTask>> GetByUserIdAsync(string userId);
+        Task<List<ApplicationTask>> GetAllWithoutToList(string searchText, long? projectId, long? sprintId, List<string> userIds);
     }
 }

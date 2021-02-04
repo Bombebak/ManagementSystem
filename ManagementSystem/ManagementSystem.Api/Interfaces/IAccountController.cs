@@ -11,5 +11,6 @@ namespace ManagementSystem.Api.Interfaces
     {
         Task<IActionResult> Register(RegisterViewModel input);
         Task<IActionResult> Login(LoginViewModel input);
+        Task<IActionResult> Logout(string returnUrl = null);
     }
 }
