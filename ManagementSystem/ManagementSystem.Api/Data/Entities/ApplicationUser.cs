@@ -8,6 +8,7 @@ namespace ManagementSystem.Api.Data.Entities
 {
     public class ApplicationUser : IdentityUser
     {
+        public string ProfileImagePath { get; set; }
         public virtual ICollection<ApplicationUserClaim> Claims { get; set; }
         public virtual ICollection<ApplicationUserLogin> Logins { get; set; }
         public virtual ICollection<ApplicationUserToken> Tokens { get; set; }

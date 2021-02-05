@@ -36,6 +36,7 @@
   <ItemGroup>
     <Folder Include="Styles\Layout\" />
     <Folder Include="Styles\Vendors\" />
+    <Folder Include="wwwroot\images\userprofiles\" />
     <Folder Include="wwwroot\js\modal\" />
     <Folder Include="wwwroot\lib\bootstrap\dist\css\" />
   </ItemGroup>
