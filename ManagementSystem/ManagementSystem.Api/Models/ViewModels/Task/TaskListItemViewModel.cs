@@ -25,11 +25,13 @@ namespace ManagementSystem.Api.Models.ViewModels.Task
     {
         public string Image { get; set; }
         public string Email { get; set; }
+        public string ProfilePath { get; set; }
 
-        public TaskListUserItemViewModel(string image, string email)
+        public TaskListUserItemViewModel(string image, string email, string profilePath)
         {
             Image = image;
             Email = email;
+            ProfilePath = profilePath;
         }
     }
 }

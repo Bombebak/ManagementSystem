@@ -12,6 +12,13 @@ namespace ManagementSystem.Api.Mappings
     public class TaskMapping : ITaskMapping
     {
         private readonly ILogger<TaskMapping> _logger;
+        private readonly IFileService _fileService;
+
+        public TaskMapping(ILogger<TaskMapping> logger, IFileService fileService)
+        {
+            _logger = logger;
+            _fileService = fileService;
+        }
 
         public List<TaskListItemViewModel> MapToTaskList(IEnumerable<ApplicationTask> source)
         {
@@ -107,7 +114,7 @@ namespace ManagementSystem.Api.Mappings
                 }
                 if (source.TaskUsers != null && source.TaskUsers.Any())
                 {
-                    target.Users.AddRange(source.TaskUsers.Select(e => new TaskListUserItemViewModel(null, e.User.Email)));
+                    target.Users.AddRange(source.TaskUsers.Select(e => new TaskListUserItemViewModel(null, e.User.Email, _fileService.GetUserProfileImage(e.User.ProfileImagePath)));
                 }
 
                 return target;
