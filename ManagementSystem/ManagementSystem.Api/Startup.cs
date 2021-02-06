@@ -115,6 +115,7 @@ namespace ManagementSystem.Api
             services.AddScoped<IModelStateService, ModelStateService>();
             services.AddScoped<ITeamUserService, TeamUserService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IFileService, FileService>();
         }
     }
 }

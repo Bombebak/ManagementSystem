@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ManagementSystem.Api.Data.Entities;
+using ManagementSystem.Api.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -17,16 +18,17 @@ namespace ManagementSystem.Api.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IWebHostEnvironment _env;
+        private readonly IFileService _fileService;
+
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, 
-            IWebHostEnvironment env)
+            SignInManager<ApplicationUser> signInManager,
+            IFileService fileService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _env = env;
+            _fileService = fileService;
         }
 
         public string Username { get; set; }
@@ -59,7 +61,7 @@ namespace ManagementSystem.Api.Areas.Identity.Pages.Account.Manage
             Input = new InputModel
             {
                 PhoneNumber = phoneNumber,
-                ProfileImagePath = "\\images\\userprofiles\\" + user.ProfileImagePath
+                ProfileImagePath = _fileService.GetUserProfileImage(user.ProfileImagePath)
             };
         }
 
@@ -101,33 +103,18 @@ namespace ManagementSystem.Api.Areas.Identity.Pages.Account.Manage
             }
             if (Input.ProfileImage != null)
             {
-                user.ProfileImagePath = await UploadProfileImage(user.ProfileImagePath, Input.ProfileImage);
-                await _userManager.UpdateAsync(user);
+                
+                user.ProfileImagePath = await _fileService.UploadUserProfile(user.ProfileImagePath, Input.ProfileImage);
+                if (!string.IsNullOrEmpty(user.ProfileImagePath))
+                {
+                    await _userManager.UpdateAsync(user);
+                }
             }
-
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
 
-        private async Task<string> UploadProfileImage(string existingImagePath, IFormFile profileImage)
-        {
-            var folder = Path.Combine(_env.WebRootPath, "images\\userprofiles");
-            var fileName = Guid.NewGuid().ToString() + "_" + profileImage.FileName;
-            var filePath = Path.Combine(folder, fileName);
-            using (var fs = new FileStream(filePath, FileMode.Create))
-            {
-                await profileImage.CopyToAsync(fs);
-            }
-            if (!string.IsNullOrEmpty(existingImagePath))
-            {
-                if (System.IO.File.Exists(folder + "\\" + existingImagePath))
-                {
-                    System.IO.File.Delete(folder + "\\" + existingImagePath);
-                }
-            }
-            return fileName;
-        }
     }
 }
