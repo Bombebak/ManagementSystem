@@ -43,6 +43,7 @@ $levels: 0, 1, 2, 3, 4, 5, 6, 7, 8;
 
     .table-parent-item {
         display: flex;
+
         &:hover {
             cursor: pointer;
         }
@@ -102,14 +103,21 @@ $levels: 0, 1, 2, 3, 4, 5, 6, 7, 8;
             .column-users {
                 display: flex;
                 width: 10%;
+
                 .user-list {
-                    margin: 3px;
+                    display: flex;
+                    align-self: center;
+                    margin: 0 3px 0 3px;
+
+                    .user-list-avatar {
+                        border-radius: 50%;
+                    }
                 }
-                
             }
 
             .column-name {
                 font-weight: bold;
+
                 @each $level in $levels {
                     &.table-item-level-#{$level} {
                         width: calc(50% + #{$level}%)

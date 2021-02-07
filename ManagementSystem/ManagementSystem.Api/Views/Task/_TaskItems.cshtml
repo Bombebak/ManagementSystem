@@ -2,14 +2,6 @@
 
 <div class="table-parent-item">
     <div class="table-item-level table-item-level-@Model.Level" style="color: black; display: flex; align-items: center; justify-content: flex-end; margin-right: 3px;">
-        @if (Model.Level > 0)
-        {
-            @for (int i = 0; i < Model.Level; i++)
-            {
-                <i class="fa fa-minus" style=" margin-top: 2px;"></i>
-            }
-            <i class="fa fa-arrow-right"></i>
-        }
     </div>
     <div style="" class="table-item">
         <div class="table-item-header" data-id="@Model.Id">
@@ -24,7 +16,7 @@
                 <div class="user-list" title="@user.Email">
                     @if (!string.IsNullOrEmpty(user.ProfilePath))
                     {
-                        <img src="@user.ProfilePath" class="user-list-avatar" />
+                        <img src="@user.ProfilePath" class="user-list-avatar" width="16" height="16" />
                     }
                     else
                     {

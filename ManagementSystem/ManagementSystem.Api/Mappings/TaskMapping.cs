@@ -114,7 +114,7 @@ namespace ManagementSystem.Api.Mappings
                 }
                 if (source.TaskUsers != null && source.TaskUsers.Any())
                 {
-                    target.Users.AddRange(source.TaskUsers.Select(e => new TaskListUserItemViewModel(null, e.User.Email, _fileService.GetUserProfileImage(e.User.ProfileImagePath)));
+                    target.Users.AddRange(source.TaskUsers.Select(e => new TaskListUserItemViewModel(null, e.User.Email, _fileService.GetUserProfileImage(e.User.ProfileImagePath))));
                 }
 
                 return target;
