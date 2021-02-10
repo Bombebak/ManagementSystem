@@ -3,36 +3,45 @@
 <div class="col-md-12">
     <div class="row">
         @Html.HiddenFor(e => e.Id)
-        @Html.HiddenFor(e => e.ParentId)
         <div class="col-6">
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" type="text" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+            <div class="row">
+                <div class="col-md-6">
+                    <label asp-for="Name" class="control-label"></label>
+                </div>
+                <div class="col-md-6">
+                    @Model.Name
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" type="text" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+            <div class="row">
+                <div class="col-md-6">
+                    <label asp-for="Description" class="control-label"></label>
+                </div>
+                <div class="col-md-6">
+                    @Model.Description
+                </div>
             </div>
         </div>
         <div class="col-6">
-            <div class="form-group">
-                <label asp-for="ProjectId">Project</label>
-                @if (Model.Projects != null)
-                {
-                    <select asp-for="ProjectId" asp-items="@(new SelectList(Model.Projects, "Value", "Label"))" class="form-control"></select>
-                }
-                <span asp-validation-for="ProjectId" class="text-danger"></span>
+            <div class="row">
+                <div class="col-md-6">
+                    <label asp-for="ProjectId" class="control-label"></label>
+                </div>
+                <div class="col-md-6">
+                    @Model.ProjectId
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="SprintId">Sprint</label>
-                @if (Model.Sprints != null)
-                {
-                    <select asp-for="SprintId" asp-items="@(new SelectList(Model.Sprints, "Value", "Label"))" class="form-control"></select>
-                }
-                <span asp-validation-for="SprintId" class="text-danger"></span>
+            <div class="row">
+                <div class="col-md-6">
+                    <label asp-for="SprintId" class="control-label"></label>
+                </div>
+                <div class="col-md-6">
+                    @Model.SprintId
+                </div>
             </div>
+        </div>
+        <div class="col-12">
+            Messages
+
         </div>
     </div>
 </div>
