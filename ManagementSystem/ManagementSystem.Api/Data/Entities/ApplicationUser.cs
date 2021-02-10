@@ -18,5 +18,7 @@ namespace ManagementSystem.Api.Data.Entities
         public virtual ICollection<ApplicationSprintUser> SprintUsers { get; set; }
         public virtual ICollection<ApplicationTaskUser> TaskUsers { get; set; }
         public virtual ICollection<ApplicationTimeRegistration> TimeRegistrations { get; set; }
+        public virtual ICollection<ApplicationMessage> Messages { get; set; }
+        public virtual ICollection<ApplicationFile> Files { get; set; }
     }
 }

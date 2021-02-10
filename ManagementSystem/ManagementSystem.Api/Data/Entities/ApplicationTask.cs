@@ -42,5 +42,7 @@ namespace ManagementSystem.Api.Data.Entities
         public virtual ICollection<ApplicationTaskUser> TaskUsers { get; set; }
         public virtual ICollection<ApplicationTimeRegistration> TimeRegistrations { get; set; }
         public virtual ICollection<ApplicationTask> Children { get; set; }
+        public virtual ICollection<ApplicationTaskMessage> TaskMessages { get; set; }
+        public virtual ICollection<ApplicationTaskFile> TaskFiles { get; set; }
     }
 }

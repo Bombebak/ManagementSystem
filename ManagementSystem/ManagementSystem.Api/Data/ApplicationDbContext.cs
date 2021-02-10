@@ -26,6 +26,11 @@ namespace ManagementSystem.Api.Data
         public virtual DbSet<ApplicationProject> Projects { get; set; }
         public virtual DbSet<ApplicationSprint> Sprints { get; set; }
         public virtual DbSet<ApplicationSprintUser> SprintUsers { get; set; }
+        public virtual DbSet<ApplicationMessage> Messages { get; set; }
+        public virtual DbSet<ApplicationFile> Files { get; set; }
+        public virtual DbSet<ApplicationMessageFile> MessageFiles { get; set; }
+        public virtual DbSet<ApplicationTaskMessage> TaskMessages { get; set; }
+        public virtual DbSet<ApplicationTaskFile> TaskFiles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -76,6 +81,18 @@ namespace ManagementSystem.Api.Data
                     .WithOne(e => e.User)
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
+
+                b.HasMany(e => e.Messages)
+                    .WithOne(e => e.User)
+                    .HasForeignKey(ur => ur.UserId)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.ClientCascade);
+
+                b.HasMany(e => e.Files)
+                    .WithOne(e => e.User)
+                    .HasForeignKey(ur => ur.UserId)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.ClientCascade);
             });
 
             modelBuilder.Entity<ApplicationRole>(b =>
@@ -146,6 +163,11 @@ namespace ManagementSystem.Api.Data
                 b.HasMany(e => e.Children)
                 .WithOne(e => e.Parent)
                 .HasForeignKey(e => e.ParentId);
+
+                b.HasMany(e => e.TaskFiles)
+                .WithOne(e => e.Task)
+                .HasForeignKey(e => e.TaskId)
+                .OnDelete(DeleteBehavior.ClientCascade);
             });
 
             modelBuilder.Entity<ApplicationTaskUser>(b =>
@@ -182,7 +204,56 @@ namespace ManagementSystem.Api.Data
             {
                 b.ToTable("TimeRegistration");
                 b.HasKey(p => p.Id);
-            });            
+            });
+
+            modelBuilder.Entity<ApplicationMessage>(b =>
+            {
+                b.ToTable("Message");
+
+                b.HasKey(p => p.Id);
+
+                b.HasMany(e => e.Children)
+                .WithOne(e => e.Parent)
+                .HasForeignKey(e => e.ParentId);
+
+                b.HasMany(e => e.MessageFiles)
+                .WithOne(e => e.Message)
+                .HasForeignKey(e => e.MessageId)
+                .OnDelete(DeleteBehavior.ClientCascade);
+            });
+
+            modelBuilder.Entity<ApplicationFile>(b =>
+            {
+                b.ToTable("File");
+
+                b.HasKey(p => p.Id);
+
+                b.HasMany(e => e.MessageFiles)
+                .WithOne(e => e.File)
+                .HasForeignKey(e => e.FileId)
+                .OnDelete(DeleteBehavior.SetNull);
+            });
+
+            modelBuilder.Entity<ApplicationMessageFile>(b =>
+            {
+                b.ToTable("Rel_Message_File");
+
+                b.HasKey(e => e.Id);
+            });
+
+            modelBuilder.Entity<ApplicationTaskMessage>(b =>
+            {
+                b.ToTable("Rel_Task_Message");
+
+                b.HasKey(e => e.Id);
+            });
+
+            modelBuilder.Entity<ApplicationTaskFile>(b =>
+            {
+                b.ToTable("Rel_Task_File");
+
+                b.HasKey(e => e.Id);
+            });
         }
     }
 }
