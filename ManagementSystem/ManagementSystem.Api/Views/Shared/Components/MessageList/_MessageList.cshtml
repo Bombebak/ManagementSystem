@@ -1,0 +1,11 @@
+﻿@model List<ManagementSystem.Api.Models.ViewModels.Message.MessageListViewModel>
+
+@{
+}
+
+<div class="w-100 list-container" style="margin-left: 10px; margin-right: 10px;">
+    @foreach (var msg in Model)
+    {
+        await Html.RenderPartialAsync("~/Views/Message/_MessageListItem.cshtml", msg);
+    }
+</div>

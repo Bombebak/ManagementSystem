@@ -56,11 +56,6 @@ namespace ManagementSystem.Api.ViewComponents.Tasks
                 var items = await _taskRepository.GetAllWithoutToList(criterias.SearchText, criterias.ProjectId, criterias.SprintId, userIds);                
                 var itemsWithoutChildren = items.Where(e => e.ParentId == null).ToList();
                 tasks = _taskMapping.MapToTaskList(itemsWithoutChildren);
-                tasks.AddRange(_taskMapping.MapToTaskList(itemsWithoutChildren));
-                tasks.AddRange(_taskMapping.MapToTaskList(itemsWithoutChildren));
-                tasks.AddRange(_taskMapping.MapToTaskList(itemsWithoutChildren));
-                tasks.AddRange(_taskMapping.MapToTaskList(itemsWithoutChildren));
-                tasks.AddRange(_taskMapping.MapToTaskList(itemsWithoutChildren));
             }
             catch (Exception ex)
             {

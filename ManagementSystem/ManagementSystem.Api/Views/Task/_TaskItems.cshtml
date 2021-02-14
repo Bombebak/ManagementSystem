@@ -13,16 +13,9 @@
                 {
                     foreach (var user in Model.Users)
                     {
-                <div class="user-list" title="@user.Email">
-                    @if (!string.IsNullOrEmpty(user.ProfilePath))
-                    {
-                        <img src="@user.ProfilePath" class="user-list-avatar" width="16" height="16" />
-                    }
-                    else
-                    {
-                        <i class="fa fa-user-circle-o"></i>
-                    }
-                </div>
+                    <div class="user-list" title="@user.Email">
+                        <img src="@user.ProfilePath" class="user-list-avatar" />
+                    </div>
                     }
                 }
             </div>

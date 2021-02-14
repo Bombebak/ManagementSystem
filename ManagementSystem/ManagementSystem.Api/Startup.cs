@@ -92,6 +92,8 @@ namespace ManagementSystem.Api
             services.AddScoped<IProjectController, ProjectController>();
             services.AddScoped<ITeamController, TeamController>();
             services.AddScoped<IUserController, UserController>();
+            services.AddScoped<IMessageController, MessageController>();
+            services.AddScoped<IFileController, FileController>();
         }
         private void RegisterRepositories(IServiceCollection services)
         {
@@ -100,6 +102,8 @@ namespace ManagementSystem.Api
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
+            services.AddScoped<IFileRepository, FileRepository>();
 
         }
         private void RegisterMappings(IServiceCollection services)
@@ -109,6 +113,8 @@ namespace ManagementSystem.Api
             services.AddScoped<IProjectMapping, ProjectMapping>();
             services.AddScoped<ISprintMapping, SprintMapping>();
             services.AddScoped<ITeamMapping, TeamMapping>();
+            services.AddScoped<IMessageMapping, MessageMapping>();
+            services.AddScoped<IFileMapping, FileMapping>();
         }
         private void RegisterServices(IServiceCollection services)
         {
@@ -116,6 +122,7 @@ namespace ManagementSystem.Api
             services.AddScoped<ITeamUserService, TeamUserService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IFileValidationService, FileValidationService>();
         }
     }
 }

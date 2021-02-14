@@ -1,0 +1,31 @@
+﻿@model List<ManagementSystem.Api.Models.ViewModels.File.FileUploadedViewModel>
+
+<div class="col-md-12">
+    <label class="control-label d-flex align-self-end" style="margin-right: 10px;"></label>
+    <div class="custom-file">
+        <input class="custom-file-input uploadable-files" multiple>
+        <label class="custom-file-label" for="customFile">Choose files</label>
+    </div>
+    <span class="text-danger"></span>
+</div>
+<div class="col-md-12 uploadable-files-list" style="color: black;" data-items>
+    @if (Model != null)
+    {
+        @foreach (var file in Model)
+        {
+            <div class="d-flex align-items-center">
+                <div style="width: 15%;">
+                    <img width="50" height="50" src="@file.Content" />
+                </div>
+                <div style="width: 400px; white-space:nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    <span>@file.Name</span>
+                </div>
+                <div style="width: 10%;" class="d-flex justify-content-end">
+                    <a class="btn btn-danger delete-file" data-id="@file.Id">
+                        <i class="fade fa-remove"></i>
+                    </a>
+                </div>
+            </div>
+        }
+    }
+</div>

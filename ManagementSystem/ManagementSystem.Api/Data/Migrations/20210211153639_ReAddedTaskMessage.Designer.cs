@@ -4,14 +4,16 @@ using ManagementSystem.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManagementSystem.Api.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210211153639_ReAddedTaskMessage")]
+    partial class ReAddedTaskMessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -213,6 +215,9 @@ namespace ManagementSystem.Api.Data.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long?>("ApplicationMessageId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -247,6 +252,8 @@ namespace ManagementSystem.Api.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationMessageId");
 
                     b.HasIndex("ParentId");
 
@@ -604,6 +611,10 @@ namespace ManagementSystem.Api.Data.Migrations
 
             modelBuilder.Entity("ManagementSystem.Api.Data.Entities.ApplicationTask", b =>
                 {
+                    b.HasOne("ManagementSystem.Api.Data.Entities.ApplicationMessage", null)
+                        .WithMany("Tasks")
+                        .HasForeignKey("ApplicationMessageId");
+
                     b.HasOne("ManagementSystem.Api.Data.Entities.ApplicationTask", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId");
@@ -635,7 +646,7 @@ namespace ManagementSystem.Api.Data.Migrations
             modelBuilder.Entity("ManagementSystem.Api.Data.Entities.ApplicationTaskMessage", b =>
                 {
                     b.HasOne("ManagementSystem.Api.Data.Entities.ApplicationMessage", "Message")
-                        .WithMany("TaskMessages")
+                        .WithMany()
                         .HasForeignKey("MessageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -643,7 +654,7 @@ namespace ManagementSystem.Api.Data.Migrations
                     b.HasOne("ManagementSystem.Api.Data.Entities.ApplicationTask", "Task")
                         .WithMany("TaskMessages")
                         .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

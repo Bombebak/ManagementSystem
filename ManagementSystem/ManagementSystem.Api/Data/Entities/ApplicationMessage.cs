@@ -15,8 +15,8 @@ namespace ManagementSystem.Api.Data.Entities
 
         public virtual ApplicationMessage Parent { get; set; }
         public virtual ApplicationUser User { get; set; }
-        public virtual ICollection<ApplicationTask> Tasks { get; set; }
-        public virtual ICollection<ApplicationMessage> Children { get; set; }
+        public ICollection<ApplicationMessage> Children { get; set; }
         public virtual ICollection<ApplicationMessageFile> MessageFiles { get; set; }
+        public virtual ICollection<ApplicationTaskMessage> TaskMessages { get; set; }
     }
 }

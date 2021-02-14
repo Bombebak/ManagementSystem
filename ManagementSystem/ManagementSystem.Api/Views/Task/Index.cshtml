@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="~/lib/select-pure/dist/css/select-pure.css" />
 
-<div>    
+<div>
     <div class="row" id="taskSearchCriterias">
         <div class="col-md-3">
             @{await Html.RenderPartialAsync("~/Views/Task/_TaskCriteria.cshtml", Model); }
@@ -22,7 +22,7 @@
                     <button type="button" class="btn btn-primary add-task">Add</button>
                 </div>
             </div>
-            
+
             <div class="col-md-12">
                 @await Component.InvokeAsync("TaskList", Model)
             </div>
@@ -37,9 +37,13 @@
 @section Scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/lib/select-pure/dist/js/bundle.min.js"></script>
-    <script src="~/js/user/user.service.js"></script>    
+    <script src="~/js/upload/uploadFiles.service.js"></script>
+    <script src="~/js/upload/files.js"></script>
+    <script src="~/js/user/user.service.js"></script>
     <script src="~/js/util/selectpure.service.js"></script>
     <script src="~/js/task/task.service.js"></script>
     <script src="~/js/task/task.search.service.js"></script>
     <script src="~/js/task/searchTasks.js"></script>
+    <script src="~/js/message/message.service.js"></script>
+    <script src="~/js/message/saveMessage.js"></script>
 }

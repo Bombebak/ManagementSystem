@@ -1,0 +1,14 @@
+﻿@model List<ManagementSystem.Api.Models.ViewModels.File.FileUploadedViewModel>
+
+@if (Model != null)
+{
+    <div class="d-flex row w-100" style="-webkit-flex-wrap: wrap; flex-wrap: wrap; padding-left: 30px; padding-right: 30px; color: black; background: #f2f2f2;">
+        @foreach (var file in Model)
+        {
+
+            <div style="max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: 10px; align-self: center;">
+                <i class="@file.FileTypeNameForIcon" style="padding-right: 5px;"></i><span>@file.Name</span>
+            </div>
+        }
+    </div>
+}

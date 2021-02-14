@@ -1,0 +1,65 @@
+﻿@model ManagementSystem.Api.Models.ViewModels.Message.MessageSaveRequestViewModel
+
+
+<div class="save-message-container" style="margin-bottom: 15px;">
+    <div class="col-md-12">
+        @Html.HiddenFor(e => e.Id)
+        @Html.HiddenFor(e => e.ParentId)
+        @Html.HiddenFor(e => e.TaskId)
+        <div class="form-group">
+            <label asp-for="Message" class="control-label"></label>
+            <textarea asp-for="Message" class="form-control" rows="3" placeholder="Write your message here"></textarea>
+            <span asp-validation-for="Message" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6 d-flex">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label asp-for="Files" class="control-label d-flex align-self-end" style="margin-right: 10px;"></label>
+                        <div class="custom-file">
+                            <input asp-for="Files" class="custom-file-input uploadable-files" multiple>
+                            <label class="custom-file-label" for="customFile">Choose files</label>
+                        </div>
+                        <span asp-validation-for="Files" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-12 uploadable-files-list" style="color: black;" data-items>
+                        @if (Model.ExistingFiles != null)
+                        {
+                            @foreach (var file in Model.ExistingFiles)
+                            {
+                                <div class="d-flex align-items-center mb-2" data-isexisting="true" data-id="@file.Id">
+                                    <div style="width: 15%;">
+                                        @if (file.FileType == ManagementSystem.Api.Models.Enums.FileTypes.Bmp || file.FileType == ManagementSystem.Api.Models.Enums.FileTypes.Jpeg
+                                        || file.FileType == ManagementSystem.Api.Models.Enums.FileTypes.Jpg || file.FileType == ManagementSystem.Api.Models.Enums.FileTypes.Png)
+                                        {
+                                            <img width="50" height="50" src="@file.Content" />
+                                        }
+                                        else 
+                                        {
+                                            <i style="font-size: 3em;" class="@file.FileTypeNameForIcon"></i>
+                                        }
+                                    </div>
+                                    <div style="width: 400px; white-space:nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                        <span>@file.Name</span>
+                                    </div>
+                                    <div style="width: 10%;" class="d-flex justify-content-end">
+                                        <a class="btn btn-danger delete-file" data-id="@file.Id">
+                                            <i class="fa fa-remove"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-2 offset-md-10">
+                    <button type="submit" class="btn btn-primary save-message">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

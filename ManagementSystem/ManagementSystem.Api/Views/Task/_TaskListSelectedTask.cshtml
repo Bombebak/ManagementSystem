@@ -39,9 +39,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12">
-            Messages
-
-        </div>
+        @*@await Component.InvokeAsync("MessageSave", new { taskId = Model.Id })*@
+        @await Component.InvokeAsync("MessageList", new { taskId = Model.Id })
     </div>
 </div>

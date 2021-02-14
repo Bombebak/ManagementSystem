@@ -36,28 +36,13 @@ $icon-font-path: '../font/';
 
 $levels: 0, 1, 2, 3, 4, 5, 6, 7, 8;
 
-.task-list-container {
+.list-container {
     position: relative;
     min-height: 250px;
     color: white;
 
     .table-parent-item {
         display: flex;
-
-        &:hover {
-            cursor: pointer;
-        }
-
-        &.task-open {
-            .table-item-header {
-                border-bottom-left-radius: 0px;
-                border-bottom-right-radius: 0px;
-            }
-
-            .table-item-content {
-                display: flex;
-            }
-        }
     }
 
     .table-item-level {
@@ -89,6 +74,54 @@ $levels: 0, 1, 2, 3, 4, 5, 6, 7, 8;
             border-top-right-radius: 15px;
             border-bottom-left-radius: 15px;
             border-bottom-right-radius: 15px;
+        }        
+    }
+}
+
+.task-list-container {
+    position: relative;
+    min-height: 250px;
+    color: white;
+
+    .table-parent-item {
+        display: flex;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        &.task-open {
+            .table-item-header {
+                border-bottom-left-radius: 0px;
+                border-bottom-right-radius: 0px;
+            }
+
+            .table-item-content {
+                display: flex;
+                cursor: default;
+            }
+        }
+    }
+
+    .table-item-level {
+        @each $level in $levels {
+            &.table-item-level-#{$level} {
+                width: calc(2% * #{$level})
+            }
+        }
+    }
+
+    .table-item {
+        .table-item-header {
+            display: flex;
+            width: 100%;
+            background: #0066cc;
+            align-items: center;
+            border: 2px solid #0066cc;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
 
             .column-id {
                 padding-left: 20px;
@@ -107,11 +140,7 @@ $levels: 0, 1, 2, 3, 4, 5, 6, 7, 8;
                 .user-list {
                     display: flex;
                     align-self: center;
-                    margin: 0 3px 0 3px;
-
-                    .user-list-avatar {
-                        border-radius: 50%;
-                    }
+                    margin: 0 3px 0 3px;                    
                 }
             }
 
@@ -158,3 +187,8 @@ $levels: 0, 1, 2, 3, 4, 5, 6, 7, 8;
     padding: 10px;
 }
 
+.user-list-avatar {
+    border-radius: 50%;
+    height: 16px;
+    width: 16px;
+}

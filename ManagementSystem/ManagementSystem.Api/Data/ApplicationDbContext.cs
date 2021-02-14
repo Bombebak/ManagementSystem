@@ -168,6 +168,11 @@ namespace ManagementSystem.Api.Data
                 .WithOne(e => e.Task)
                 .HasForeignKey(e => e.TaskId)
                 .OnDelete(DeleteBehavior.ClientCascade);
+
+                b.HasMany(e => e.TaskMessages)
+                .WithOne(e => e.Task)
+                .HasForeignKey(e => e.TaskId)
+                .OnDelete(DeleteBehavior.ClientCascade);
             });
 
             modelBuilder.Entity<ApplicationTaskUser>(b =>

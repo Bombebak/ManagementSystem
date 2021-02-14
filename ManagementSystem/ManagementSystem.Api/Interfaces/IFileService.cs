@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ManagementSystem.Api.Models.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace ManagementSystem.Api.Interfaces
     {
         string GetUserProfileImage(string userProfile);
         Task<string> UploadUserProfile(string existingImagePath, IFormFile fileForm);
+        string GetFileIconClassByFileType(FileTypes fileType);
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ManagementSystem.Api.Interfaces;
+using ManagementSystem.Api.Models.Enums;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -28,6 +29,7 @@ namespace ManagementSystem.Api.Services
         {
             if (string.IsNullOrEmpty(userProfile))
             {
+                //TODO: Default image
                 return string.Empty;
             }
             return _userProfilePath + userProfile;
@@ -36,6 +38,7 @@ namespace ManagementSystem.Api.Services
         public async Task<string> UploadUserProfile(string existingImagePath, IFormFile fileForm)
         {
             //TODO: Validate file content for malware
+            //https://docs.microsoft.com/en-us/aspnet/core/mvc/models/file-uploads?view=aspnetcore-5.0
             var folder = Path.Combine(_env.WebRootPath, "images\\userprofiles");
             var fileName = Guid.NewGuid().ToString() + "_" + fileForm.FileName;
             var filePath = Path.Combine(folder, fileName);
@@ -43,6 +46,35 @@ namespace ManagementSystem.Api.Services
             var deletedResult = DeleteImage(folder + "\\" + existingImagePath);
            
             return fileName;
+        }
+
+        public string GetFileIconClassByFileType(FileTypes fileType)
+        {
+            switch(fileType)
+            {
+                case FileTypes.Word:
+                    return "fa fa-file-word-o";
+                case FileTypes.Excel:
+                    return "fa fa-file-excel-o";
+                case FileTypes.PowerPoint:
+                    return "fa fa-file-powerpoint-o";
+                case FileTypes.Pdf:
+                    return "fa fa-file-pdf-o";
+                case FileTypes.Txt:
+                    return "fa fa-file-text-o";
+                case FileTypes.Png:
+                case FileTypes.Jpg:
+                case FileTypes.Jpeg:
+                case FileTypes.Bmp:
+                case FileTypes.Gif:
+                    return "fa fa-picture-o";
+                case FileTypes.Zip:
+                    return "fa fa-file-zip-o";
+                case FileTypes.Html:
+                    return "fa fa-file-code-o";
+
+            }
+            return string.Empty;
         }
 
         private async Task<bool> AddImageAsync(string filePath, IFormFile fileForm)

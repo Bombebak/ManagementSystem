@@ -19,16 +19,19 @@ namespace ManagementSystem.Api.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IFileService _fileService;
+        private readonly IFileValidationService _fileValidationService;
 
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IFileService fileService)
+            IFileService fileService,
+            IFileValidationService fileValidationService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _fileService = fileService;
+            _fileValidationService = fileValidationService;
         }
 
         public string Username { get; set; }
@@ -103,7 +106,12 @@ namespace ManagementSystem.Api.Areas.Identity.Pages.Account.Manage
             }
             if (Input.ProfileImage != null)
             {
-                
+                var fileValidationResult = _fileValidationService.Validate(Input.ProfileImage);
+                if (!fileValidationResult.IsValid)
+                {
+                    StatusMessage = "You have attempted to upload a file type that is not allowed. Try in another format.";
+                    return RedirectToPage();
+                }
                 user.ProfileImagePath = await _fileService.UploadUserProfile(user.ProfileImagePath, Input.ProfileImage);
                 if (!string.IsNullOrEmpty(user.ProfileImagePath))
                 {
