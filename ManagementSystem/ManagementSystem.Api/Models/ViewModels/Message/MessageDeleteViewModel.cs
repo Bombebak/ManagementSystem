@@ -8,6 +8,5 @@ namespace ManagementSystem.Api.Models.ViewModels.Message
     public class MessageDeleteViewModel
     {
         public long Id { get; set; }
-        public int NumberOfChildren { get; set; }
     }
 }

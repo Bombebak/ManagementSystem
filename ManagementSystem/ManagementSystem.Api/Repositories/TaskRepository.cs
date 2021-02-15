@@ -21,9 +21,9 @@ namespace ManagementSystem.Api.Repositories
             _dbContext = dbContext;
         }
 
-        public ApplicationTask GetById(long taskId)
+        public async Task<ApplicationTask> GetByIdAsync(long taskId)
         {
-            return _dbContext.Tasks.Where(e => e.Id == taskId).Include(e => e.Project).Include(e => e.Sprint).Include(e => e.TaskUsers).ThenInclude(e => e.User).FirstOrDefault();
+            return await _dbContext.Tasks.Where(e => e.Id == taskId).Include(e => e.Project).Include(e => e.Sprint).Include(e => e.TaskUsers).ThenInclude(e => e.User).FirstOrDefaultAsync();
         }
 
         public Task<List<ApplicationTask>> GetAllAsync()

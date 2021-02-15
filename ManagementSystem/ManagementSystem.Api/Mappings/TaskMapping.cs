@@ -91,8 +91,8 @@ namespace ManagementSystem.Api.Mappings
             target.Description = source.Description;
             target.Hours = source.Hours;
             target.Minutes = source.Minutes;
-            target.SprintId = source.SprintId.GetValueOrDefault();
-            target.ProjectId = source.ProjectId.GetValueOrDefault();
+            target.Sprint = source.Sprint?.Name;
+            target.Project = source.Project?.Name;
 
             return target;
         }

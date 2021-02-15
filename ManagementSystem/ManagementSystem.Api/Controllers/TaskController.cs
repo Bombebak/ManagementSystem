@@ -59,15 +59,13 @@ namespace ManagementSystem.Api.Controllers
             {
                 //TODO: Error handling
             }
-            var selectedTask = _taskRepository.GetById(taskId.Value);
+            var selectedTask = await _taskRepository.GetByIdAsync(taskId.Value);
             if (selectedTask == null)
             {
                 //TODO: Error handling
             }
 
             var vm = _taskMapping.MapToSelectedTask(selectedTask);
-            vm.Projects = await _commonListItemController.GetProjectsAsync(true);
-            vm.Sprints = await _commonListItemController.GetSprintsAsync(true);
 
             return PartialView("_TaskListSelectedTask", vm);
         }
@@ -112,7 +110,7 @@ namespace ManagementSystem.Api.Controllers
             var taskToBeSaved = new ApplicationTask();
             if (request.Id.GetValueOrDefault() != 0)
             {
-                taskToBeSaved = _taskRepository.GetById(request.Id.Value);
+                taskToBeSaved = await _taskRepository.GetByIdAsync(request.Id.Value);
             }
             else
             {

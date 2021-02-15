@@ -14,13 +14,12 @@
 
     $(document).on('click', '.save-open-message', function () {
         var id = $(this).attr('data-id');
-        var parentId = $(this).attr('data-parentid');
         var taskId = $(this).attr('data-taskid');
         $('.reply-message-container').empty();
         var container = $(this).parent().parent().parent().find('.reply-message-container')[0];
         var files = getFiles(container);
         try {
-            _messageService.openSaveMessage(container, id, parentId, taskId, files);
+            _messageService.openSaveMessage(container, id, taskId, files);
         } catch (e) {
             console.error(e);
         }

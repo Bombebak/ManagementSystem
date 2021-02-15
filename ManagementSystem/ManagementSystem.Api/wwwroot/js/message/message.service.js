@@ -4,8 +4,8 @@
     var _modelService = modelService;
     var _validationService = validationService;
 
-    self.openSaveMessage = function (container, messageId, parentId, taskId) {
-        $.get('/Message/SaveMessage', { id: messageId, parentId: parentId, taskId: taskId}, function (response) {
+    self.openSaveMessage = function (container, messageId, taskId) {
+        $.get('/Message/SaveMessage', { id: messageId, taskId: taskId}, function (response) {
             $(container).html(response);
         });
     };    
@@ -20,11 +20,7 @@
             {
                 'PropertyName': 'TaskId',
                 'Id': 'TaskId'
-            },
-            {
-                'PropertyName': 'ParentId',
-                'Id': 'ParentId'
-            },
+            },            
             {
                 'PropertyName': 'Message',
                 'Id': 'Message'
@@ -55,7 +51,6 @@
 
         formData.append("Id", data.Id);
         formData.append("TaskId", data.TaskId);
-        formData.append("ParentId", data.ParentId);
         formData.append("Message", data.Message);
 
         $.ajax({

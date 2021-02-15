@@ -45,27 +45,12 @@ namespace ManagementSystem.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteMessage(long id)
         {
-            var message = await _messageRepository.GetByIdIncludedChildrenAsync(id);
-            int childCount = 0;
-            CountChildNodes(message, ref childCount);
+            var message = await _messageRepository.GetByIdAsync(id);
             var data = new MessageDeleteViewModel()
             {
-                Id = id,
-                NumberOfChildren = childCount
+                Id = id
             };
             return PartialView("_ConfirmDeleteModal", data);
-        }
-
-        private void CountChildNodes(ApplicationMessage msg, ref int counter)
-        {
-            if (msg.Children != null)
-            {
-                foreach (var child in msg.Children)
-                {
-                    counter++;
-                    CountChildNodes(child, ref counter);
-                }
-            }
         }
 
         [HttpPost]
@@ -113,7 +98,7 @@ namespace ManagementSystem.Api.Controllers
             try
             {
 
-                var itemToBeDeleted = await _messageRepository.GetByIdIncludedFilesAndChildrenAsync(request.Id);
+                var itemToBeDeleted = await _messageRepository.GetByIdAsync(request.Id);
                 var deleted = DeleteMessage(itemToBeDeleted);
                 if (deleted)
                 {
@@ -139,13 +124,6 @@ namespace ManagementSystem.Api.Controllers
                     DeleteFile(msgFile);
                 }
             }
-            if (itemToBeDeleted.Children != null)
-            {
-                foreach (var child in itemToBeDeleted.Children)
-                {
-                    DeleteMessage(child);
-                }
-            }
             return true;
         }
 
@@ -168,10 +146,6 @@ namespace ManagementSystem.Api.Controllers
             {
                 _dbContext.Messages.Add(messageToBeSaved);
                 SaveMessageToTask(messageToBeSaved, request.TaskId.Value);
-            }
-            if (request.ParentId.HasValue)
-            {
-                messageToBeSaved.ParentId = request.ParentId;
             }
             messageToBeSaved.Message = request.Message;
             messageToBeSaved.UserId = userId;

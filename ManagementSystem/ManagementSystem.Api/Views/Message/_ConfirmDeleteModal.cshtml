@@ -15,31 +15,9 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">
             @Html.HiddenFor(e => e.Id)
-
-            @if (Model.NumberOfChildren > 0)
-            {
-                <div class="col-md-12">
-                    <p>
-                        By deleting this message you will also delete @Model.NumberOfChildren other
-                        @if (Model.NumberOfChildren > 1)
-                        {
-                            <span> messages. </span>
-
-                        }
-                        else
-                        {
-                            <span> message. </span>
-                        }
-                        <span class="font-weight-bold">Are you sure?</span>
-                    </p>
-                </div>
-            }
-            else
-            {
-                <div class="col-md-12">
-                    <p>Are you sure you want to delete this message?</p>
-                </div>
-            }
+            <div class="col-md-12">
+                <p>Are you sure you want to delete this message?</p>
+            </div>
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-danger relative" id="deleteMessageBtn">Delete</button>

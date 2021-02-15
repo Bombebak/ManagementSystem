@@ -23,7 +23,7 @@ namespace ManagementSystem.Api.ViewComponents.Messages
             _messageMapping = messageMapping;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(long? messageId, long? messageParentId, long taskId)
+        public async Task<IViewComponentResult> InvokeAsync(long? messageId, long taskId)
         {
             var data = new MessageSaveRequestViewModel();
             if (messageId.HasValue)
@@ -41,10 +41,6 @@ namespace ManagementSystem.Api.ViewComponents.Messages
                 {
                     _logger.LogError(ex, "Exception occured while trying to map messageId: " + messageId);
                 }
-            }
-            if (messageParentId.HasValue)
-            {
-                data.ParentId = messageParentId;
             }
             data.TaskId = taskId;
 

@@ -12,6 +12,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
+                <a class="dropdown-item" asp-area="Identity" asp-page="/System/Manage/Index" title="Manage">System</a>
                 <a class="dropdown-item" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">Logout</a>
             </div>
         </li>

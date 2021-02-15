@@ -1,13 +1,11 @@
 ﻿@model ManagementSystem.Api.Models.ViewModels.Message.MessageListViewModel
 
 <div class="table-parent-item">
-    <div class="table-item-level table-item-level-@Model.Level" style="color: black; display: flex; align-items: center; justify-content: flex-end; margin-right: 3px;">
-    </div>
-    <div class="table-item" style="border-top-left-radius: 15px; border-top-right-radius: 15px; margin-bottom: 15px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
-        <div class="row w-100" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; background: #0066cc; align-items: center; border: 2px solid #0066cc; border-top-left-radius: 15px; border-top-right-radius: 15px; ">
-            <div class="col-md-5 d-flex align-items-center" style="color: white">
+    <div class="table-item" style="margin-bottom: 15px; color: black;">
+        <div class="row w-100" style="align-items: center;">
+            <div class="col-md-5 d-flex align-items-center">
                 <img src="@Model.Author.ProfileImagePath" class="user-list-avatar" />
-                <span>@Model.Author.Name</span>
+                <span style="padding-left: 10px;">@Model.Author.Name</span>
             </div>
             <div class="col-md-4 d-flex justify-content-end">
                 @if (Model.CurrentUserId == Model.Author.Id)
@@ -16,9 +14,6 @@
                         <i class="fa fa-pencil"></i>Edit
                     </a>
                 }
-                <a class="btn btn-dark save-open-message" data-parentid="@Model.Id" data-taskid="@Model.TaskId">
-                    <i class="fa fa-pencil"></i>Reply
-                </a>
                 @if (Model.CurrentUserId == Model.Author.Id)
                 {
                     <a class="btn btn-danger delete-open-message-modal" data-id="@Model.Id">
@@ -31,7 +26,7 @@
                 @Model.CreationDateStr
             </div>
         </div>
-        <div class="col-md-12" style="padding-bottom: 10px; padding-top: 10px; background: #f2f2f2; color: black;">
+        <div class="col-md-12" style="padding-bottom: 10px; padding-top: 10px;">
             @Model.Message
         </div>
         @if (Model.Files != null && Model.Files.Any())
@@ -45,11 +40,3 @@
     </div>    
 </div>
 
-
-@if (Model.Children != null)
-{
-    @foreach (var msg in Model.Children)
-    {
-        await Html.RenderPartialAsync("~/Views/Message/_MessageListItem.cshtml", msg);
-    }
-}

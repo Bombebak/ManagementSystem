@@ -6,40 +6,29 @@
         <div class="col-6">
             <div class="row">
                 <div class="col-md-6">
-                    <label asp-for="Name" class="control-label"></label>
+                    <label asp-for="Project" class="control-label"></label>
                 </div>
                 <div class="col-md-6">
-                    @Model.Name
+                    @Model.Project
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <label asp-for="Description" class="control-label"></label>
+                    <label asp-for="Sprint" class="control-label"></label>
                 </div>
                 <div class="col-md-6">
-                    @Model.Description
+                    @Model.Sprint
                 </div>
             </div>
         </div>
-        <div class="col-6">
-            <div class="row">
-                <div class="col-md-6">
-                    <label asp-for="ProjectId" class="control-label"></label>
-                </div>
-                <div class="col-md-6">
-                    @Model.ProjectId
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <label asp-for="SprintId" class="control-label"></label>
-                </div>
-                <div class="col-md-6">
-                    @Model.SprintId
-                </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="3" disabled="disabled"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
         </div>
-        @*@await Component.InvokeAsync("MessageSave", new { taskId = Model.Id })*@
         @await Component.InvokeAsync("MessageList", new { taskId = Model.Id })
+        @await Component.InvokeAsync("MessageSave", new { taskId = Model.Id })
     </div>
 </div>

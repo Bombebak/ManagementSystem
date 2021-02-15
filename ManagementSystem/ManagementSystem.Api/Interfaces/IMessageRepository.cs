@@ -11,8 +11,6 @@ namespace ManagementSystem.Api.Interfaces
         Task<ApplicationMessage> GetByIdAsync(long id);
         Task<IEnumerable<ApplicationMessage>> GetAllAsync();
         Task<IEnumerable<ApplicationMessage>> GetAllByTaskIdAsync(long taskId);
-        Task<ApplicationMessage> GetByIdIncludedChildrenAsync(long id);
-        Task<ApplicationMessage> GetByIdIncludedChildrenAndFilesAsync(long id);
-        Task<ApplicationMessage> GetByIdIncludedFilesAndChildrenAsync(long id);
+
     }
 }

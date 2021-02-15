@@ -33,7 +33,6 @@ namespace ManagementSystem.Api.ViewComponents.Messages
         {
             var user = await _userManager.GetUserAsync((ClaimsPrincipal)User);
             var messages = await _messageRepository.GetAllByTaskIdAsync(taskId);
-            messages = messages.Where(e => e.ParentId == null);
             var result = _messageMapping.MapToListFromDatalayer(messages, user.Id);
 
             return View("_MessageList", result);

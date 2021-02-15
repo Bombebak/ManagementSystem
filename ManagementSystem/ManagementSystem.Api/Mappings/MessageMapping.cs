@@ -62,13 +62,6 @@ namespace ManagementSystem.Api.Mappings
 
             target.CurrentUserId = currentUserId;
 
-            target.Children = new List<MessageListViewModel>();
-            if (source.Children != null)
-            {
-                level += 1;
-                target.Children.AddRange(source.Children.Select(e => MapToListItemFromDatalayer(e, level, currentUserId, ref _taskId)));
-            }
-
             return target;
         }
 

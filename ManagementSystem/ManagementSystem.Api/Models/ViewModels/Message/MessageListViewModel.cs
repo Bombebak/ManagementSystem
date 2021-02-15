@@ -14,7 +14,6 @@ namespace ManagementSystem.Api.Models.ViewModels.Message
         public string CreationDateStr { get; set; }
         public string Message { get; set; }
         public int Level { get; set; }
-        public List<MessageListViewModel> Children { get; set; }
         public List<FileUploadedViewModel> Files { get; set; }
         public string CurrentUserId { get; set; }
     }

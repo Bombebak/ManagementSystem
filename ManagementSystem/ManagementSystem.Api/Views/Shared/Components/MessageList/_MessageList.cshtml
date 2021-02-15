@@ -3,7 +3,8 @@
 @{
 }
 
-<div class="w-100 list-container" style="margin-left: 10px; margin-right: 10px;">
+<div class="list-container" style="margin-left: 10%; margin-right: 10%; width: 80%; margin-top: 30px; color: black;">
+    <h4>Comments</h4>
     @foreach (var msg in Model)
     {
         await Html.RenderPartialAsync("~/Views/Message/_MessageListItem.cshtml", msg);

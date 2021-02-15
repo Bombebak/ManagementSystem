@@ -30,7 +30,7 @@ namespace ManagementSystem.Api.ViewComponents.Tasks
             SaveTaskRequestViewModel data = new SaveTaskRequestViewModel();
             if (taskId.HasValue)
             {
-                var entity = _taskRepository.GetById(taskId.Value);
+                var entity = await _taskRepository.GetByIdAsync(taskId.Value);
                 data = _taskMapping.MapToSaveTask(entity);
             }
             if (taskParentId.HasValue)

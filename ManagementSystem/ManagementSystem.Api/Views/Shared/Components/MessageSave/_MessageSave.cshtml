@@ -1,7 +1,7 @@
 ﻿@model ManagementSystem.Api.Models.ViewModels.Message.MessageSaveRequestViewModel
 
 
-<div class="save-message-container" style="margin-bottom: 15px;">
+<div class="save-message-container" style="margin-bottom: 15px; width: 80%; margin-left: 10%; margin-right: 10%;">
     <div class="col-md-12">
         @Html.HiddenFor(e => e.Id)
         @Html.HiddenFor(e => e.ParentId)
@@ -55,8 +55,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="col-md-2 offset-md-10">
+            <div class="col-md-6" style="align-self: flex-end">
+                <div style="display: flex; justify-content: flex-end;">
                     <button type="submit" class="btn btn-primary save-message">Save</button>
                 </div>
             </div>

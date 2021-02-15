@@ -217,10 +217,6 @@ namespace ManagementSystem.Api.Data
 
                 b.HasKey(p => p.Id);
 
-                b.HasMany(e => e.Children)
-                .WithOne(e => e.Parent)
-                .HasForeignKey(e => e.ParentId);
-
                 b.HasMany(e => e.MessageFiles)
                 .WithOne(e => e.Message)
                 .HasForeignKey(e => e.MessageId)
