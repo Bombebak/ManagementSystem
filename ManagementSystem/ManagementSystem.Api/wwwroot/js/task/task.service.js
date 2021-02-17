@@ -4,6 +4,7 @@
     var _validationService = validationService;
     var _userService = userService;
     var _selectPureService = selectPureService;
+    var _fileService = uploadFilesService;
 
     $('.add-task').on('click', function () {
         var id = $(this).attr('data-id');
@@ -114,11 +115,28 @@
         data = _modelService.setOptionProperties(data, optionDropdowns);
         data.TaskUsers = taskWithUsers.value();
 
+        var files = _fileService.mergeExistingAndNewFiles(uploadableFiles, modal);
+        var formData = new FormData();
+        formData = _fileService.addExistingAndNewFilesToFormData(formData, files, modal);
+        if (data.TaskUsers != null) {
+            for (var i = 0; i < data.TaskUsers.length; i++) {
+                formData.append("TaskUsers[" + i + "]", data.TaskUsers[i]);
+            }
+        }
+
+        formData.append("Id", data.Id);
+        formData.append("ParentId", data.ParentId);
+        formData.append("Name", data.Name);
+        formData.append("Description", data.Description);
+        formData.append("ProjectId", data.ProjectId);
+        formData.append("SprintId", data.SprintId);
+
         $.ajax({
             type: "POST",
             url: actionUrl,
-            data: data,
-            datatype: "json",
+            data: formData,
+            processData: false,
+            contentType: false,
         }).done(function (response) {
             if (response != null && response.result != null) {
                 var result = response.result;
@@ -132,6 +150,26 @@
         }).fail(function (response) {
             console.log('Error: ' + response);
         });
+    });
+
+    var uploadableFiles = [];
+    $(document).on('change', '#saveTaskForm .uploadable-files', function () {
+        var files = $(this).prop('files');
+        var saveList = $(this).parent().parent().next();
+        try {
+            uploadableFiles = _fileService.fileInputHasChanged(files, uploadableFiles, saveList);
+        } catch (e) {
+            console.error(e);
+        }
+    });
+
+    $(document).on('click', '#saveTaskForm .delete-file', function () {
+        var id = $(this).attr('data-id');
+        try {
+            uploadableFiles = _fileService.deleteFile(id, uploadableFiles, $(this).parent().parent());
+        } catch (e) {
+            console.error(e);
+        }
     });
 
 

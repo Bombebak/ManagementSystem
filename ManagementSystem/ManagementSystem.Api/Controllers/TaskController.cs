@@ -25,10 +25,11 @@ namespace ManagementSystem.Api.Controllers
         private readonly IModelStateService _modelStateService;
         private readonly ICommonListItemController _commonListItemController;
         private readonly IUserRepository _userRepository;
-
+        private readonly IFileController _fileController;
 
         public TaskController(ILogger<TaskController> logger, ITaskRepository taskRepository, ITaskMapping taskMapping, ApplicationDbContext dbContext, 
-            IModelStateService modelStateService, ICommonListItemController commonListItemController, IUserRepository userRepository)
+            IModelStateService modelStateService, ICommonListItemController commonListItemController, IUserRepository userRepository,
+            IFileController fileController)
         {
             _logger = logger;
             _taskRepository = taskRepository;
@@ -37,6 +38,7 @@ namespace ManagementSystem.Api.Controllers
             _modelStateService = modelStateService;
             _commonListItemController = commonListItemController;
             _userRepository = userRepository;
+            _fileController = fileController;
         }
 
         [HttpGet]
@@ -85,7 +87,11 @@ namespace ManagementSystem.Api.Controllers
 
             try
             {                
-                result.Success = await SaveTask(request, userId);
+                var taskToBeSaved = await SaveTask(request, userId);
+                var files = _fileController.SaveFilesToDb(taskToBeSaved, request.Files, userId);
+                List<Models.ViewModels.File.FileUploadedViewModel> existingFiles = _fileController.UpdateExistingFiles(taskToBeSaved.TaskFiles?.Where(e => e.Id != 0)?.ToList(), request.ExistingFiles);
+                await _dbContext.SaveChangesAsync();
+                result.Success = true;
                 result.Messages.Add(new ValidationItem()
                 {
                     Message = "Very nice",
@@ -105,7 +111,7 @@ namespace ManagementSystem.Api.Controllers
             return Json(new { result });
         }
 
-        private async Task<bool> SaveTask(SaveTaskRequestViewModel request, string userId)
+        private async Task<ApplicationTask> SaveTask(SaveTaskRequestViewModel request, string userId)
         {
             var taskToBeSaved = new ApplicationTask();
             if (request.Id.GetValueOrDefault() != 0)
@@ -118,13 +124,8 @@ namespace ManagementSystem.Api.Controllers
             }
             await SaveTaskUsers(taskToBeSaved, request.TaskUsers);
             _taskMapping.MapTaskToBeSaved(taskToBeSaved, request);
-            var result = _dbContext.SaveChanges();
 
-            if (result == 1)
-            {
-                return true;
-            }
-            return false;
+            return taskToBeSaved;
         }
 
         private async Task<bool> SaveTaskUsers(ApplicationTask taskToBeSaved, List<string> TaskUsersToBeSaved)

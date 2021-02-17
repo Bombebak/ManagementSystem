@@ -24,35 +24,7 @@
                         </div>
                         <span asp-validation-for="Files" class="text-danger"></span>
                     </div>
-                    <div class="col-md-12 uploadable-files-list" style="color: black;" data-items>
-                        @if (Model.ExistingFiles != null)
-                        {
-                            @foreach (var file in Model.ExistingFiles)
-                            {
-                                <div class="d-flex align-items-center mb-2" data-isexisting="true" data-id="@file.Id">
-                                    <div style="width: 15%;">
-                                        @if (file.FileType == ManagementSystem.Api.Models.Enums.FileTypes.Bmp || file.FileType == ManagementSystem.Api.Models.Enums.FileTypes.Jpeg
-                                        || file.FileType == ManagementSystem.Api.Models.Enums.FileTypes.Jpg || file.FileType == ManagementSystem.Api.Models.Enums.FileTypes.Png)
-                                        {
-                                            <img width="50" height="50" src="@file.Content" />
-                                        }
-                                        else 
-                                        {
-                                            <i style="font-size: 3em;" class="@file.FileTypeNameForIcon"></i>
-                                        }
-                                    </div>
-                                    <div style="width: 400px; white-space:nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                        <span>@file.Name</span>
-                                    </div>
-                                    <div style="width: 10%;" class="d-flex justify-content-end">
-                                        <a class="btn btn-danger delete-file" data-id="@file.Id">
-                                            <i class="fa fa-remove"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            }
-                        }
-                    </div>
+                    @{await Html.RenderPartialAsync("~/Views/File/_UploadFiles.cshtml", Model.ExistingFiles);}
                 </div>
             </div>
             <div class="col-md-6" style="align-self: flex-end">

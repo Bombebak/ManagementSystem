@@ -30,23 +30,37 @@ namespace ManagementSystem.Api.Mappings
                 return target;
             }
 
-            target.AddRange(source.Select(e => MapFileTuploadedItem(e)));
+            target.AddRange(source.Select(e => MapFileUploadedItem(e.File)));
 
             return target;
         }
 
-        private FileUploadedViewModel MapFileTuploadedItem(ApplicationMessageFile source)
+        public List<FileUploadedViewModel> MapFileUploadedToList(ICollection<ApplicationTaskFile> source)
+        {
+            var target = new List<FileUploadedViewModel>();
+
+            if (source == null)
+            {
+                return target;
+            }
+
+            target.AddRange(source.Select(e => MapFileUploadedItem(e.File)));
+
+            return target;
+        }
+
+        private FileUploadedViewModel MapFileUploadedItem(ApplicationFile source)
         {
             var target = new FileUploadedViewModel();
 
             try
             {
-                target.Id = source.FileId.Value;
-                target.Name = source.File.Name;
-                target.CreationDate = source.File.CreationDate;
-                target.FileType = (FileTypes)source.File.FileType;
-                target.FileTypeNameForIcon = _fileService.GetFileIconClassByFileType((FileTypes)source.File.FileType);
-                target.Content = string.Format("data:image/png;base64,{0}", Convert.ToBase64String(source.File.Content));
+                target.Id = source.Id;
+                target.Name = source.Name;
+                target.CreationDate = source.CreationDate;
+                target.FileType = (FileTypes)source.FileType;
+                target.FileTypeNameForIcon = _fileService.GetFileIconClassByFileType((FileTypes)source.FileType);
+                target.Content = string.Format("data:image/png;base64,{0}", Convert.ToBase64String(source.Content));
             }
             catch (Exception ex)
             {

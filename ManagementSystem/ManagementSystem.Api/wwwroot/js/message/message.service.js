@@ -3,6 +3,7 @@
     var self = this;
     var _modelService = modelService;
     var _validationService = validationService;
+    var _fileService = uploadFilesService;
 
     self.openSaveMessage = function (container, messageId, taskId) {
         $.get('/Message/SaveMessage', { id: messageId, taskId: taskId}, function (response) {
@@ -28,24 +29,7 @@
 
         var formData = new FormData();
 
-        if (files != null) {
-            for (var i = 0; i != files.length; i++) {
-                formData.append("Files", files[i]);
-            }
-        }
-
-        var arr = [];
-        var existingFiles = $(container).find('.uploadable-files-list div[data-isexisting="true"]');
-        if (existingFiles != null) {
-            for (var i = 0; i != existingFiles.length; i++) {
-                var itemId = $(existingFiles[i]).attr('data-id');
-                arr.push(parseInt(itemId));
-            }
-        }
-
-        for (var i = 0; i != arr.length; i++) {
-            formData.append("ExistingFiles["+i+"].Id", arr[i]);
-        }
+        formData = _fileService.addExistingAndNewFilesToFormData(formData, files, container);
 
         var data = _modelService.setSimpleProperties(data, properties);     
 

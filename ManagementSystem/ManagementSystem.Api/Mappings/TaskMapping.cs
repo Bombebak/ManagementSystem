@@ -13,11 +13,13 @@ namespace ManagementSystem.Api.Mappings
     {
         private readonly ILogger<TaskMapping> _logger;
         private readonly IFileService _fileService;
+        private readonly IFileMapping _fileMapping;
 
-        public TaskMapping(ILogger<TaskMapping> logger, IFileService fileService)
+        public TaskMapping(ILogger<TaskMapping> logger, IFileService fileService, IFileMapping fileMapping)
         {
             _logger = logger;
             _fileService = fileService;
+            _fileMapping = fileMapping;
         }
 
         public List<TaskListItemViewModel> MapToTaskList(IEnumerable<ApplicationTask> source)
@@ -49,6 +51,7 @@ namespace ManagementSystem.Api.Mappings
             target.ProjectId = source.ProjectId.GetValueOrDefault();
             target.SprintId = source.SprintId.GetValueOrDefault();
             target.ParentId = source.ParentId;
+            target.ExistingFiles = _fileMapping.MapFileUploadedToList(source.TaskFiles);
 
             return target;
         }
@@ -93,6 +96,7 @@ namespace ManagementSystem.Api.Mappings
             target.Minutes = source.Minutes;
             target.Sprint = source.Sprint?.Name;
             target.Project = source.Project?.Name;
+            
 
             return target;
         }

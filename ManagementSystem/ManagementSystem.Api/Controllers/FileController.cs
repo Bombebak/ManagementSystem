@@ -67,6 +67,46 @@ namespace ManagementSystem.Api.Controllers
             return applicationFiles;
         }
 
+        public List<ApplicationFile> SaveFilesToDb(ApplicationTask taskToBeSaved, List<IFormFile> files, string userId)
+        {
+            var applicationFiles = new List<ApplicationFile>();
+            var applicationTaskFiles = new List<ApplicationTaskFile>();
+            if (files != null && files.Any())
+            {
+                foreach (var file in files)
+                {
+                    using (var ms = new System.IO.MemoryStream())
+                    {
+                        file.CopyTo(ms);
+                        var fileValidation = _fileValidationService.Validate(ms.ToArray());
+                        if (!fileValidation.IsValid)
+                        {
+                            continue;
+                        }
+                        // Upload the file if less than 2 MB
+                        var fileToBeSaved = new ApplicationFile()
+                        {
+                            Content = ms.ToArray(),
+                            CreationDate = DateTime.Now,
+                            Name = file.FileName,
+                            FileType = (int)fileValidation.FileType,
+                            UserId = userId
+                        };
+                        applicationFiles.Add(fileToBeSaved);
+                        applicationTaskFiles.Add(new ApplicationTaskFile()
+                        {
+                            File = fileToBeSaved,
+                            Task = taskToBeSaved
+                        });
+                    }
+
+                }
+                _dbContext.Files.AddRange(applicationFiles);
+                _dbContext.TaskFiles.AddRange(applicationTaskFiles);
+            }
+            return applicationFiles;
+        }
+
         public List<FileUploadedViewModel> UpdateExistingFiles(ICollection<ApplicationMessageFile> messageFiles, List<FileUploadedViewModel> existingFiles)
         {
             if (messageFiles == null || !messageFiles.Any())
@@ -87,6 +127,30 @@ namespace ManagementSystem.Api.Controllers
             {
                 _dbContext.Files.Remove(msgFile.File);
                 _dbContext.MessageFiles.Remove(msgFile);
+            }
+            return existingFiles;
+        }
+
+        public List<FileUploadedViewModel> UpdateExistingFiles(ICollection<ApplicationTaskFile> taskFiles, List<FileUploadedViewModel> existingFiles)
+        {
+            if (taskFiles == null || !taskFiles.Any())
+            {
+                return existingFiles;
+            }
+
+            var taskFilesToBeDeleted = new List<ApplicationTaskFile>();
+            foreach (var taskFile in taskFiles)
+            {
+                var exists = existingFiles.Any(e => e.Id == taskFile.FileId);
+                if (!exists)
+                {
+                    taskFilesToBeDeleted.Add(taskFile);
+                }
+            }
+            foreach (var taskFile in taskFilesToBeDeleted)
+            {
+                _dbContext.Files.Remove(taskFile.File);
+                _dbContext.TaskFiles.Remove(taskFile);
             }
             return existingFiles;
         }

@@ -18,9 +18,7 @@ namespace ManagementSystem.Api.Models.ViewModels.Message
         public DateTime? CreationDate { get; set; }
         public List<IFormFile> Files { get; set; }
         public List<FileUploadedViewModel> ExistingFiles { get; set; }
-        public bool HasLoaded { get; set; } //Used to check if data has to be loaded from id
 
-        public List<int> Test { get; set; }
 
         public MessageSaveRequestViewModel()
         {

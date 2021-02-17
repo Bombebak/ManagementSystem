@@ -12,7 +12,69 @@
 				console.error(e);
 			}
 		});
-	};
+    };
+
+    self.fileInputHasChanged = function (newFiles, existingFiles, container) {
+        if (newFiles == null) {
+            newFiles = [];
+        }
+
+        for (var i = 0, l = newFiles.length; i < l; i++) {
+            var file = newFiles[i];
+            existingFiles.push(file);
+            var currentItems = $(container).attr('data-items');
+            currentItems += file.lastModified + ','
+            $(container).attr('data-items', currentItems);
+        }
+
+        return existingFiles;
+    };
+
+    self.deleteFile = function (id, files, container) {
+        var isExisting = $(container).attr('data-isexisting');
+        if (isExisting == null) {
+            files = $.grep(files, function (e) {
+                if (e.lastModified != id) return e;
+            });
+        }
+        $(container).remove(); 
+        return files;
+    };
+
+    self.mergeExistingAndNewFiles = function (oldFiles, container) {
+        if (oldFiles == null) oldFiles = [];
+        var files = [];
+        var items = $(container).find('.uploadable-files-list').attr('data-items');
+        if (items != null) {
+            var itemsArr = items.split(',');
+            $.map(itemsArr, function (e) {
+                $.map(oldFiles, function (ee) {
+                    if (ee.lastModified == e && e != '') {
+                        files.push(ee);
+                    }
+                });
+            });
+        }
+        return files;
+    };
+
+    self.addExistingAndNewFilesToFormData = function (formData, files, container) {
+        if (files != null) {
+            for (var i = 0; i != files.length; i++) {
+                formData.append("Files", files[i]);
+            }
+        }
+
+        var existingFiles = $(container).find('.uploadable-files-list div[data-isexisting="true"]');
+        if (existingFiles != null) {
+            for (var i = 0; i != existingFiles.length; i++) {
+                var itemId = $(existingFiles[i]).attr('data-id');
+                formData.append("ExistingFiles[" + i + "].Id", itemId);
+            }
+        }
+
+        return formData;
+    };
 
     function createFileItem(file) {
         var reader = new FileReader();
@@ -22,7 +84,6 @@
 
         var previewDiv = document.createElement('div');
         previewDiv.style.width = "15%";
-        console.log(file);
         if (file.type.indexOf('image') > 0) {
             var img = document.createElement('img');
             img.width = 50;
@@ -82,6 +143,10 @@
     };
 
 	return {
-        populateListWithFiles
+        populateListWithFiles,
+        fileInputHasChanged,
+        deleteFile,
+        mergeExistingAndNewFiles,
+        addExistingAndNewFilesToFormData
 	};
 }());

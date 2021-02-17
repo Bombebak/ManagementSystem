@@ -23,7 +23,11 @@ namespace ManagementSystem.Api.Repositories
 
         public async Task<ApplicationTask> GetByIdAsync(long taskId)
         {
-            return await _dbContext.Tasks.Where(e => e.Id == taskId).Include(e => e.Project).Include(e => e.Sprint).Include(e => e.TaskUsers).ThenInclude(e => e.User).FirstOrDefaultAsync();
+            return await _dbContext.Tasks.Where(e => e.Id == taskId).
+                Include(e => e.Project).Include(e => e.Sprint).
+                Include(e => e.TaskUsers).ThenInclude(e => e.User).
+                Include(e => e.TaskFiles).ThenInclude(e => e.File).
+                FirstOrDefaultAsync();
         }
 
         public Task<List<ApplicationTask>> GetAllAsync()
